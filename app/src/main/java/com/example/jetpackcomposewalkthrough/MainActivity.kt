@@ -10,6 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.jetpackcomposewalkthrough.ui.home.HomeScreen
 import com.example.jetpackcomposewalkthrough.ui.theme.JetPackComposeWalkthroughTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,26 +22,30 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetPackComposeWalkthroughTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
+                val navController = rememberNavController()
+
+                NavHost(navController = navController, startDestination = "home" ) {
+                    composable("home") {
+                        HomeScreen(
+                            onCategoryClick = { navController.navigate("menu") },
+                            onMenuItemClick = { navController.navigate("menu") },
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    JetPackComposeWalkthroughTheme {
-        Greeting("Android")
-    }
-}
+//@Composable
+//fun Greeting(name: String) {
+//    Text(text = "Hello $name!")
+//}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    JetPackComposeWalkthroughTheme {
+//        Greeting("Android")
+//    }
+//}

@@ -10,7 +10,7 @@ object HomeRepository {
     fun getHomeData(): Home {
         return Home(
             user = User(
-                name = "Dhawan"
+                name = "Sohan"
             ),
             categories = CategoriesRepository.getCategoriesData(),
             popularMenuItems = listOf(
