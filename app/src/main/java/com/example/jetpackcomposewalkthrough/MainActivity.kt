@@ -27,8 +27,8 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = "home" ) {
                     composable("home") {
                         HomeScreen(
-                            onCategoryClick = { navController.navigate("menu") },
-                            onMenuItemClick = { navController.navigate("menu") },
+                            onCategoryClick = { /*navController.navigate("menu")*/ },
+                            onMenuItemClick = { /*navController.navigate("menu")*/ },
                         )
                     }
                 }
@@ -36,16 +36,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-//@Composable
-//fun Greeting(name: String) {
-//    Text(text = "Hello $name!")
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreview() {
-//    JetPackComposeWalkthroughTheme {
-//        Greeting("Android")
-//    }
-//}
