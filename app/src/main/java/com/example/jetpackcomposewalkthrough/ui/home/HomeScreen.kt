@@ -49,7 +49,6 @@ fun HomeScreen(
                     text = "Find what you want...",
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
-
             }
         }
     }
