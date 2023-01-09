@@ -79,12 +79,19 @@ fun HomeScreen(
                 )
             }
 
-            items(data.popularMenuItems) { menuItem ->
-                MenuItemCard(
-                    menuItem = menuItem,
-                    onClick = onMenuItemClick
-                    )
-                Spacer(modifier = Modifier.height(8.dp))
+            item { Spacer(modifier = Modifier.width(16.dp) ) }
+
+            item {
+                LazyRow {
+                    item { Spacer(modifier = Modifier.width(16.dp) ) }
+                    items(data.popularMenuItems) { menuItem ->
+                        MenuItemCard(
+                            menuItem = menuItem,
+                            onClick = onMenuItemClick
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                }
             }
 
             item { Spacer(modifier = Modifier.height(16.dp)) }

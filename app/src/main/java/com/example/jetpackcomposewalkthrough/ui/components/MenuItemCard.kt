@@ -53,6 +53,23 @@ fun MenuItemCard(
 
             }
 
+            NetworkImage(
+                imageUrl = menuItem.image,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .aspectRatio(1.40f)
+                    .constrainAs(image) {
+//                        end.linkTo(parent.end)
+//                        top.linkTo(parent.top)
+//                        bottom.linkTo(parent.bottom)
+                        start.linkTo(card.start)
+                        end.linkTo(card.end)
+                        bottom.linkTo(name.top)
+
+                    },
+                previewPlaceholder = R.drawable.menu_item_quarter_pounder_with_cheese_meal
+            )
+
             Text(
                 text = menuItem.name,
                 style = MaterialTheme.typography.subtitle1,
@@ -60,9 +77,10 @@ fun MenuItemCard(
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .constrainAs(name) {
-                        start.linkTo(card.start, margin = 16.dp)
-                        end.linkTo(image.start)
-                        top.linkTo(card.top, margin = 16.dp)
+                        start.linkTo(card.start)
+                        end.linkTo(card.end)
+                        top.linkTo(card.bottom)
+                        bottom.linkTo(price.top, margin = 16.dp)
 
                         width = Dimension.fillToConstraints
                         height = Dimension.wrapContent
@@ -74,9 +92,9 @@ fun MenuItemCard(
                 style = MaterialTheme.typography.subtitle2,
                 modifier = Modifier
                     .constrainAs(price) {
-                        start.linkTo(card.start, margin = 16.dp)
-                        end.linkTo(image.start)
-
+                        start.linkTo(card.start)
+                        end.linkTo(card.end)
+                        top.linkTo(name.bottom)
                         bottom.linkTo(card.bottom, margin = 16.dp)
 
                         width = Dimension.fillToConstraints
@@ -84,18 +102,7 @@ fun MenuItemCard(
                     }
             )
 
-            NetworkImage(
-                imageUrl = menuItem.image,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .aspectRatio(1.40f)
-                    .constrainAs(image) {
-                        end.linkTo(parent.end)
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                    },
-                previewPlaceholder = R.drawable.menu_item_quarter_pounder_with_cheese_meal
-            )
+
 
         }
     }
