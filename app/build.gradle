@@ -71,4 +71,7 @@ dependencies {
     implementation Libs.AndroidX.Navigation.navigationCompose
 
     implementation Libs.Accompanist.coil
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
+    implementation 'androidx.test:monitor:1.5.0'
+    testImplementation 'junit:junit:4.12'
 }

@@ -1,6 +1,7 @@
-package com.hitanshudhawan.mccompose.data
+package com.example.jetpackcomposewalkthrough.data
 
-import com.hitanshudhawan.mccompose.model.Category
+import com.example.jetpackcomposewalkthrough.model.Category
+
 
 object CategoriesRepository {
 

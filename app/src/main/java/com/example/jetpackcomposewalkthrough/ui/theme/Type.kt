@@ -6,23 +6,57 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Set of Material typography styles to start with
-val Typography = Typography(
+val typography = Typography(
+    h1 = TextStyle(
+        fontSize = 96.sp,
+        fontWeight = FontWeight.Bold,
+    ),
+    h2 = TextStyle(
+        fontSize = 60.sp,
+        fontWeight = FontWeight.Bold,
+    ),
+    h3 = TextStyle(
+        fontSize = 48.sp,
+        fontWeight = FontWeight.Bold,
+    ),
+    h4 = TextStyle(
+        fontSize = 28.sp,
+        fontWeight = FontWeight.Bold,
+    ),
+    h5 = TextStyle(
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold,
+    ),
+    h6 = TextStyle(
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold,
+    ),
+    subtitle1 = TextStyle(
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Medium,
+    ),
+    subtitle2 = TextStyle(
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Medium,
+    ),
     body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
-    /* Other default text styles to override
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Light,
+    ),
+    body2 = TextStyle(
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Light,
+    ),
     button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Bold,
     ),
     caption = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontSize = 12.sp,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
+    ),
+    overline = TextStyle(
+        fontSize = 10.sp,
+        fontWeight = FontWeight.Normal,
     )
-    */
 )

@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.jetpackcomposewalkthrough.data.HomeRepository
+import com.example.jetpackcomposewalkthrough.ui.components.MenuItemCard
 import com.example.jetpackcomposewalkthrough.ui.components.SearchBar
 import com.example.jetpackcomposewalkthrough.ui.components.SpotlightCard
 import com.example.jetpackcomposewalkthrough.ui.theme.JetPackComposeWalkthroughTheme
-import com.hitanshudhawan.mccompose.data.HomeRepository
+
 
 @Composable
 fun HomeScreen(
@@ -27,7 +29,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "McDonald's") }
+                title = { Text(text = "Foodi") }
             )
         }
     ) {
@@ -69,14 +71,41 @@ fun HomeScreen(
 
             item { Spacer(modifier = Modifier.height(16.dp) ) }
 
-//            item {
-//                Text(
-//                    text = "Popular",
-//                    style = MaterialTheme.typography.h4,
-//                    modifier = Modifier.padding(horizontal = 16.dp)
-//                )
-//            }
+            item {
+                Text(
+                    text = "Popular",
+                    style = MaterialTheme.typography.h4,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
 
+            items(data.popularMenuItems) { menuItem ->
+                MenuItemCard(
+                    menuItem = menuItem,
+                    onClick = onMenuItemClick
+                    )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            item { Spacer(modifier = Modifier.height(16.dp)) }
+
+            item {
+                Text(
+                    text = "Recommended",
+                    style = MaterialTheme.typography.h4,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+
+            items(data.recommendedMenuItems) { menuItem ->
+                MenuItemCard(
+                    menuItem = menuItem,
+                    onClick = onMenuItemClick
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            item { Spacer(modifier = Modifier.height(16.dp)) }
         }
     }
 }

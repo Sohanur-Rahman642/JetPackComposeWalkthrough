@@ -1,4 +1,4 @@
-package com.hitanshudhawan.mccompose.model
+package com.example.jetpackcomposewalkthrough.model
 
 data class Home(
     val user: User,

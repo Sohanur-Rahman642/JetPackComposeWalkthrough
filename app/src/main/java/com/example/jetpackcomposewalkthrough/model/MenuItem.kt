@@ -1,4 +1,4 @@
-package com.hitanshudhawan.mccompose.model
+package com.example.jetpackcomposewalkthrough.model
 
 data class MenuItem(
     val id: Long,

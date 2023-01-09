@@ -1,7 +1,7 @@
-package com.hitanshudhawan.mccompose.data
+package com.example.jetpackcomposewalkthrough.data
 
-import com.hitanshudhawan.mccompose.model.Menu
-import com.hitanshudhawan.mccompose.model.MenuItem
+import com.example.jetpackcomposewalkthrough.model.Menu
+import com.example.jetpackcomposewalkthrough.model.MenuItem
 
 object MenuRepository {
 

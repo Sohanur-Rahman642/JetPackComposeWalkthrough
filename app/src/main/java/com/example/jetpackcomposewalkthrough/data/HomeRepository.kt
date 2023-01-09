@@ -1,9 +1,9 @@
-package com.hitanshudhawan.mccompose.data
+package com.example.jetpackcomposewalkthrough.data
+import com.example.jetpackcomposewalkthrough.data.MenuRepository.getRandomPrice
+import com.example.jetpackcomposewalkthrough.model.Home
+import com.example.jetpackcomposewalkthrough.model.MenuItem
+import com.example.jetpackcomposewalkthrough.model.User
 
-import com.hitanshudhawan.mccompose.data.MenuRepository.getRandomPrice
-import com.hitanshudhawan.mccompose.model.Home
-import com.hitanshudhawan.mccompose.model.MenuItem
-import com.hitanshudhawan.mccompose.model.User
 
 object HomeRepository {
 
