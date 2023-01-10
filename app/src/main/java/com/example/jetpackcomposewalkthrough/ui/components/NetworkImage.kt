@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.foundation.Image
+import androidx.compose.ui.Alignment
 import com.google.accompanist.coil.rememberCoilPainter
 
 
@@ -22,8 +23,9 @@ fun NetworkImage(
             fadeIn = fadeIn,
             previewPlaceholder = previewPlaceholder
         ),
-       contentDescription = null,
+        contentDescription = null,
         modifier = modifier,
-        contentScale = contentScale
+        contentScale = contentScale,
+        alignment = Alignment.Center,
     )
 }

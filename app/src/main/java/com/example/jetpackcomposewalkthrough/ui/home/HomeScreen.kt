@@ -27,63 +27,67 @@ fun HomeScreen(
     val data = HomeRepository.getHomeData()
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Foodi") }
-            )
-        }
+//        topBar = {
+//            TopAppBar(
+//                title = { Text(text = "Foodi") }
+//            )
+//        }
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
+//            item {
+//                Text(
+//                    text = "Hi ${data.user.name}!",
+//                    style = MaterialTheme.typography.h3,
+//                    modifier = Modifier.padding( horizontal = 16.dp)
+//                )
+//            }
+//
+//            item {
+//                SearchBar(
+//                    text = "Find what you want...",
+//                    modifier = Modifier.padding(horizontal = 16.dp)
+//                )
+//            }
+//
+//            item { Spacer(modifier = Modifier.height(16.dp) ) }
+//
+//            item {
+//                LazyRow {
+//                    item { Spacer(modifier = Modifier.width(16.dp) ) }
+//                    items(data.categories) { category ->
+//                        SpotlightCard(
+//                            title = category.name,
+//                            imageUrl = category.image,
+//                            onClick = onCategoryClick
+//                        )
+//                        Spacer(modifier = Modifier.width(16.dp))
+//                    }
+//                }
+//            }
+//
+
+
             item {
                 Text(
-                    text = "Hi ${data.user.name}!",
-                    style = MaterialTheme.typography.h3,
-                    modifier = Modifier.padding( horizontal = 16.dp)
+                    text = "Popular Restaurants",
+                    style = MaterialTheme.typography.h6,
+                    modifier = Modifier.padding(horizontal = 20.dp)
                 )
-            }
 
-            item {
-                SearchBar(
-                    text = "Find what you want...",
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(16.dp) ) }
-
-            item {
-                LazyRow {
-                    item { Spacer(modifier = Modifier.width(16.dp) ) }
-                    items(data.categories) { category ->
-                        SpotlightCard(
-                            title = category.name,
-                            imageUrl = category.image,
-                            onClick = onCategoryClick
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-                }
-            }
-
-            item { Spacer(modifier = Modifier.height(16.dp) ) }
-
-            item {
-                Text(
-                    text = "Popular",
-                    style = MaterialTheme.typography.h4,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
+                Spacer(modifier = Modifier.height(10.dp))
             }
 
             item { Spacer(modifier = Modifier.width(16.dp) ) }
 
             item {
-                LazyRow {
-                    item { Spacer(modifier = Modifier.width(16.dp) ) }
+                LazyRow (
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ){
+                    item { Spacer(modifier = Modifier.width(10.dp) ) }
                     items(data.popularMenuItems) { menuItem ->
                         MenuItemCard(
                             menuItem = menuItem,
@@ -96,23 +100,23 @@ fun HomeScreen(
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            item {
-                Text(
-                    text = "Recommended",
-                    style = MaterialTheme.typography.h4,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            }
-
-            items(data.recommendedMenuItems) { menuItem ->
-                MenuItemCard(
-                    menuItem = menuItem,
-                    onClick = onMenuItemClick
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            item { Spacer(modifier = Modifier.height(16.dp)) }
+//            item {
+//                Text(
+//                    text = "Recommended",
+//                    style = MaterialTheme.typography.h4,
+//                    modifier = Modifier.padding(horizontal = 16.dp)
+//                )
+//            }
+//
+//            items(data.recommendedMenuItems) { menuItem ->
+//                MenuItemCard(
+//                    menuItem = menuItem,
+//                    onClick = onMenuItemClick
+//                )
+//                Spacer(modifier = Modifier.height(8.dp))
+//            }
+//
+//            item { Spacer(modifier = Modifier.height(16.dp)) }
         }
     }
 }
