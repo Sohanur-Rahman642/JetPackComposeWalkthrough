@@ -8,15 +8,15 @@ object SliderRepository {
         return listOf(
             SliderMenuItem(
                 id = 1,
-                image = "banner1.png"
+                image = "https://raw.githubusercontent.com/Sohanur-Rahman642/JetPackComposeWalkthrough/main/app/src/main/res/drawable-nodpi/" + "banner1.png",
             ),
             SliderMenuItem(
                 id = 2,
-                image = "banner2.png"
+                image = "https://raw.githubusercontent.com/Sohanur-Rahman642/JetPackComposeWalkthrough/main/app/src/main/res/drawable-nodpi/" + "banner2.png",
             ),
             SliderMenuItem(
                 id = 3,
-                image = "banner1.png"
+                image = "https://raw.githubusercontent.com/Sohanur-Rahman642/JetPackComposeWalkthrough/main/app/src/main/res/drawable-nodpi/" + "banner1.png",
             ),
         )
     }

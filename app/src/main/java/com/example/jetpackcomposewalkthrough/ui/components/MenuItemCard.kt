@@ -76,10 +76,8 @@ fun MenuItemCard(
                 NetworkImage(
                     imageUrl = menuItem.image,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.height(140.dp).fillMaxWidth()
-                  ,
-
-                   previewPlaceholder = R.drawable.foodi5
+                    modifier = Modifier.height(140.dp).fillMaxWidth(),
+                    previewPlaceholder = R.drawable.foodi5
                 )
 
                 Spacer(modifier = Modifier.width(16.dp))

@@ -37,11 +37,11 @@ fun SliderItemCard(
             modifier = Modifier
 
         ) {
-            Image(
-                painterResource(R.drawable.banner1),
-                contentDescription = "",
+            NetworkImage(
+                imageUrl = sliderMenuItem.image,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                previewPlaceholder = R.drawable.banner1
             )
         }
     }
