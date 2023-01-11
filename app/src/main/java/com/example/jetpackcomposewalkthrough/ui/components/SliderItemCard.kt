@@ -24,6 +24,7 @@ fun SliderItemCard(
     sliderMenuItem: SliderMenuItem,
     onClick: () -> Unit,
 ) {
+
     Card(
         modifier = Modifier
             .width(300.dp)
