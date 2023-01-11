@@ -13,6 +13,8 @@ object HomeRepository {
                 name = "Sohan"
             ),
             categories = CategoriesRepository.getCategoriesData(),
+            circularMenuItems = ItemRepository.getCircularItemData(),
+            imageSliderItems = SliderRepository.getSliderItemData(),
             popularMenuItems = listOf(
                 MenuItem(
                     id = 1001,

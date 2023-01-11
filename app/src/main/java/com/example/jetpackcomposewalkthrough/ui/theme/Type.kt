@@ -55,17 +55,17 @@ val typography = Typography(
     subtitle2 = TextStyle(
         fontFamily = Inter,
         fontSize = 16.sp,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
     ),
     body1 = TextStyle(
         fontFamily = Inter,
         fontSize = 16.sp,
-        fontWeight = FontWeight.Light,
+        fontWeight = FontWeight.Normal,
     ),
     body2 = TextStyle(
         fontFamily = Inter,
         fontSize = 14.sp,
-        fontWeight = FontWeight.Light,
+        fontWeight = FontWeight.Normal,
     ),
     button = TextStyle(
         fontFamily = Inter,
@@ -81,5 +81,5 @@ val typography = Typography(
         fontFamily = Inter,
         fontSize = 10.sp,
         fontWeight = FontWeight.Normal,
-    )
+    ),
 )

@@ -48,5 +48,9 @@ object Libs {
             const val runtimeLiveData = "androidx.compose.runtime:runtime-livedata:$version"
             const val tooling = "androidx.compose.ui:ui-tooling:$version"
         }
+
+        object Pager {
+            const val accompanistPager = "com.google.accompanist:accompanist-pager:0.22.0-rc"
+        }
     }
 }

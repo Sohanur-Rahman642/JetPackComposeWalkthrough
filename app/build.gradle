@@ -63,6 +63,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.runtime
     implementation Libs.AndroidX.Compose.runtimeLiveData
     implementation Libs.AndroidX.Compose.tooling
+    implementation Libs.AndroidX.Pager.accompanistPager
 
     implementation Libs.AndroidX.Activity.activityCompose
 
