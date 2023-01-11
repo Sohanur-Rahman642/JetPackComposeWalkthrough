@@ -36,6 +36,36 @@ object ItemRepository {
                 name = "Pasta",
                 image = "TBA"
             ),
+            CircularMenuItem(
+                id = 7,
+                name = "Shawarma",
+                image = "TBA"
+            ),
+            CircularMenuItem(
+                id = 8,
+                name = "Singara",
+                image = "TBA"
+            ),
+            CircularMenuItem(
+                id = 9,
+                name = "Samucha",
+                image = "TBA"
+            ),
+            CircularMenuItem(
+                id = 10,
+                name = "Sandwich",
+                image = "TBA"
+            ),
+            CircularMenuItem(
+                id = 11,
+                name = "Fruit Juice",
+                image = "TBA"
+            ),
+            CircularMenuItem(
+                id = 12,
+                name = "Chicken Chap",
+                image = "TBA"
+            ),
         )
     }
 }

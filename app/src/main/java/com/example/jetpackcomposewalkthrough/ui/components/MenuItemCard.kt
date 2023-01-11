@@ -42,13 +42,12 @@ fun MenuItemCard(
     Card(
         modifier = when( type ) {
             Constants.TYPE_VERTICAL -> Modifier
-                .width(400.dp)
                 .height(230.dp)
                 .padding(start = 20.dp, end = 20.dp)
                 .clickable(onClick = onClick)
 
             else -> Modifier
-                .width(300.dp)
+                .width(320.dp)
                 .height(230.dp)
                 .clickable(onClick = onClick)
         },

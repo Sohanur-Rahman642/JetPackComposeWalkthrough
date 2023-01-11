@@ -71,7 +71,7 @@ fun HomeScreen(
                     HorizontalPager(
                         count = data.imageSliderItems.size,
                         state = pagerState,
-                        contentPadding = PaddingValues(start = 20.dp, end = 60.dp),
+                        contentPadding = PaddingValues( start = 10.dp, end = 110.dp),
                         modifier = Modifier
                             .wrapContentSize()
 
@@ -85,7 +85,7 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(10.dp))
 
                     HorizontalPagerIndicator(
-                        totalDots = 3,
+                        totalDots = data.imageSliderItems.size,
                         selectedIndex = pagerState.currentPage,
                         selectedColor = FigCrimson,
                         unSelectedColor = FigHint,
@@ -99,7 +99,8 @@ fun HomeScreen(
 
             item {
                 LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+
                 ) {
                     item { Spacer(modifier = Modifier.width(5.dp)) }
 

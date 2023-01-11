@@ -42,7 +42,7 @@ fun CircularMenuItemCard(
             ) {
             Box(
                 modifier = Modifier
-                    .size(90.dp)
+                    .size(60.dp)
                     .clip(CircleShape)
 
 

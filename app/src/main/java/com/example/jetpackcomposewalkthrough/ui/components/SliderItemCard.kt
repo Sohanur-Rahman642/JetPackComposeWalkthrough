@@ -27,7 +27,7 @@ fun SliderItemCard(
 
     Card(
         modifier = Modifier
-            .width(300.dp)
+            .width(350.dp)
             .height(200.dp)
             .clickable(onClick = onClick),
 

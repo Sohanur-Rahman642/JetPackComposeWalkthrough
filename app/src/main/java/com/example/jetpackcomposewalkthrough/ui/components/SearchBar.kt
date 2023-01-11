@@ -22,7 +22,7 @@ fun SearchBar(
 ) {
     androidx.compose.material.Surface(
         modifier = modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.medium,
+        shape = MaterialTheme.shapes.small,
         color = MaterialTheme.colors.surface,
         contentColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
     ) {
@@ -49,7 +49,7 @@ fun SearchBar(
 private fun SearchBarPreview() {
     JetPackComposeWalkthroughTheme() {
         SearchBar(
-            text = "Find what you want..."
+            text = "Search for restaurant name..."
         )
     }
 }
