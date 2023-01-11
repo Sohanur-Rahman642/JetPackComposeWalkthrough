@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,10 +23,7 @@ import com.example.jetpackcomposewalkthrough.ui.components.CircularMenuItemCard
 import com.example.jetpackcomposewalkthrough.ui.components.HorizontalPagerIndicator
 import com.example.jetpackcomposewalkthrough.ui.components.MenuItemCard
 import com.example.jetpackcomposewalkthrough.ui.components.SliderItemCard
-import com.example.jetpackcomposewalkthrough.ui.theme.FigBlack
-import com.example.jetpackcomposewalkthrough.ui.theme.FigCrimson
-import com.example.jetpackcomposewalkthrough.ui.theme.FigHint
-import com.example.jetpackcomposewalkthrough.ui.theme.JetPackComposeWalkthroughTheme
+import com.example.jetpackcomposewalkthrough.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -38,9 +36,25 @@ fun HomeScreen(
 ) {
     val data = HomeRepository.getHomeData()
 
-    Scaffold {
+    Scaffold(
+        topBar = {
+            Box(
+                modifier = Modifier
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                FigGradientOne,
+                                FigGradientTwo
+                            )
+                        )
+                    )
+                    .fillMaxWidth()
+                    .height(180.dp)
+            ) {
 
-
+            }
+        }
+    ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {

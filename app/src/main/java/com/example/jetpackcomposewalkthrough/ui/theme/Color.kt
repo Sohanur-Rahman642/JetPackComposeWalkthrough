@@ -21,3 +21,8 @@ val FigBlack = Color(0xFF282A33)
 val FigGreen = Color(0xFF2FAE62)
 val FigLightCrimson = Color(0xFFF66B6A)
 val FigRed = Color(0xFFFE451D)
+val FigLightBabyPink = Color(0xFFFFAEAE)
+val FigGradientOne = Color(0xFFFF7A40)
+val FigGradientTwo = Color(0xFFD9D9D9)
+
+
