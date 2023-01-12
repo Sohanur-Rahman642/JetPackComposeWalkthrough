@@ -185,7 +185,8 @@ fun HomeScreen(
 
                 }
             }
-        }
+        },
+        bottomBar = { BottomNavigationBar() }
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize()
@@ -231,10 +232,9 @@ fun HomeScreen(
 
             item {
                 LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
 
                 ) {
-                    item { Spacer(modifier = Modifier.width(5.dp)) }
+                    item { Spacer(modifier = Modifier.width(16.dp)) }
 
                     items(data.circularMenuItems) { circularMenuItem ->
                         CircularMenuItemCard(
@@ -300,7 +300,7 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     item { Spacer(modifier = Modifier.width(10.dp)) }
-                    items(data.popularMenuItems) { menuItem ->
+                    items(data.featuredMenuItems) { menuItem ->
                         MenuItemCard(
                             menuItem = menuItem,
                             onClick = onMenuItemClick,
@@ -333,7 +333,7 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     item { Spacer(modifier = Modifier.width(10.dp)) }
-                    items(data.popularMenuItems) { menuItem ->
+                    items(data.sweetToothItems) { menuItem ->
                         MenuItemCard(
                             menuItem = menuItem,
                             onClick = onMenuItemClick,
@@ -359,7 +359,7 @@ fun HomeScreen(
             item { Spacer(modifier = Modifier.height(16.dp)) }
             item { Spacer(modifier = Modifier.width(10.dp)) }
 
-            items(data.popularMenuItems) { menuItem ->
+            items(data.allRestaurantsMenuItems) { menuItem ->
                 MenuItemCard(
                     menuItem = menuItem,
                     onClick = onMenuItemClick,

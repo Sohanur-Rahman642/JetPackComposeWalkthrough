@@ -14,8 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpackcomposewalkthrough.R
 import com.example.jetpackcomposewalkthrough.constants.Constants
-import com.example.jetpackcomposewalkthrough.model.CircularMenuItem
-import com.example.jetpackcomposewalkthrough.model.MenuItem
 import com.example.jetpackcomposewalkthrough.model.SliderMenuItem
 import com.example.jetpackcomposewalkthrough.ui.theme.JetPackComposeWalkthroughTheme
 
@@ -27,25 +25,27 @@ fun SliderItemCard(
 
     Card(
         modifier = Modifier
-            .width(350.dp)
-            .height(200.dp)
             .padding(start = 20.dp)
+            .fillMaxSize()
             .clickable(onClick = onClick),
 
         shape = MaterialTheme.shapes.medium,
         backgroundColor = Color.White,
     ) {
-        Box(
-            modifier = Modifier
-
-        ) {
-            NetworkImage(
-                imageUrl = sliderMenuItem.image,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-                previewPlaceholder = R.drawable.banner1
-            )
-        }
+//        CustomImage(
+//            type = Constants.TYPE_LOCAL,
+//            imageUrl = sliderMenuItem.image,
+//            contentScale = ContentScale.FillBounds,
+//            previewPlaceholder = R.drawable.banner1,
+//            modifier = Modifier.fillMaxSize(),
+//        )
+        Image(
+            painterResource(sliderMenuItem.image.removePrefix("drawable://").toInt()),
+            contentDescription = "",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.width(350.dp)
+                .height(200.dp)
+        )
     }
 }
 

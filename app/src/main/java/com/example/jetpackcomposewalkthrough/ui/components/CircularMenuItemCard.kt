@@ -31,7 +31,7 @@ fun CircularMenuItemCard(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
+        modifier = Modifier.padding(start = 10.dp)
 
     ) {
         Column(
@@ -50,7 +50,7 @@ fun CircularMenuItemCard(
                 Image(
                     painterResource(R.drawable.burger),
                     contentDescription = "",
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier.fillMaxSize()
                 )
             }

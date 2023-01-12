@@ -1,5 +1,6 @@
 package com.example.jetpackcomposewalkthrough.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -29,6 +30,7 @@ import com.example.jetpackcomposewalkthrough.R
 import com.example.jetpackcomposewalkthrough.constants.Constants
 import com.example.jetpackcomposewalkthrough.model.MenuItem
 import com.example.jetpackcomposewalkthrough.ui.theme.*
+import com.google.accompanist.coil.rememberCoilPainter
 import kotlin.math.log
 
 
@@ -38,11 +40,11 @@ fun MenuItemCard(
     onClick: () -> Unit,
     type: String
 ) {
-
+    println("image url: ${menuItem.image}")
     Card(
         modifier = when( type ) {
             Constants.TYPE_VERTICAL -> Modifier
-                .height(230.dp)
+                .height(280.dp)
                 .padding(start = 20.dp, end = 20.dp)
                 .clickable(onClick = onClick)
 
@@ -70,11 +72,23 @@ fun MenuItemCard(
                        bottom.linkTo(name.top)
                    }
             ) {
-                NetworkImage(
-                    imageUrl = menuItem.image,
+//                NetworkImage(
+//                    imageUrl = menuItem.image,
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier
+//                        .height(140.dp).fillMaxWidth(),
+//                    previewPlaceholder = R.drawable.foodi1
+//                )
+                Image(
+                    painterResource(menuItem.image.removePrefix("drawable://").toInt()),
+                    contentDescription = "",
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.height(140.dp).fillMaxWidth(),
-                    previewPlaceholder = R.drawable.foodi5
+                     modifier = when( type ) {
+                        Constants.TYPE_VERTICAL -> Modifier
+                            .height(190.dp).fillMaxWidth()
+                        else -> Modifier
+                            .height(140.dp).fillMaxWidth()
+                    }.clip(RoundedCornerShape(16.dp)),
                 )
 
                 Spacer(modifier = Modifier.width(16.dp))
@@ -167,9 +181,19 @@ fun MenuItemCard(
                 )
 
                 Spacer(modifier = Modifier.height(5.dp))
+            }
 
-
-                Row(){
+            ///...........Price & Rating Row......../////
+            Row(
+                modifier = Modifier.constrainAs( ratingIcon ) {
+                    start.linkTo(parent.start, margin = 5.dp)
+                    top.linkTo(name.bottom)
+                }.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+                Row(
+                    modifier = Modifier
+                ){
                     Text(
                         text = "৳",
                         style = MaterialTheme.typography.body2,
@@ -203,36 +227,31 @@ fun MenuItemCard(
                 }
 
 
-            }
+                Row(
+                    modifier = Modifier.padding(end = 10.dp)
+                ) {
+                    Icon(
+                        Icons.Filled.Star,
+                        tint = FigOrange,
+                        modifier = Modifier.height(18.dp).width(18.dp)
+                    )
 
+                    Text(
+                        text = menuItem.rating.toString(),
+                        style = MaterialTheme.typography.body2,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                    )
 
-            Row(
-                modifier = Modifier.constrainAs( ratingIcon ) {
-                    end.linkTo(parent.end, margin = 2.dp)
-                    bottom.linkTo(parent.bottom, margin = 10.dp)
+                    Text(
+                        text = "(" +menuItem.totalRaters.toString()+ ")",
+                        style = MaterialTheme.typography.body2,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                    )
                 }
-            ) {
-                Icon(
-                    Icons.Filled.Star,
-                    tint = FigOrange,
-                    modifier = Modifier.height(18.dp).width(18.dp)
-                )
-
-                Text(
-                    text = menuItem.rating.toString(),
-                    style = MaterialTheme.typography.body2,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                )
-
-                Text(
-                    text = "(" +menuItem.totalRaters.toString()+ ")",
-                    style = MaterialTheme.typography.body2,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                )
             }
 
         }
