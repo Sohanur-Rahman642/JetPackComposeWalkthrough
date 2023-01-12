@@ -5,7 +5,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.dp
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
     primary = Red700,
@@ -35,6 +39,31 @@ fun JetPackComposeWalkthroughTheme(
     lightTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    val systemUiController = rememberSystemUiController()
+
+    val useDarkIcons = !lightTheme
+
+    val configuration = LocalConfiguration.current
+
+    val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+
+    println("dimension: $screenWidth * $screenHeight")
+
+
+    DisposableEffect(systemUiController, useDarkIcons) {
+        // Update all of the system bar colors to be transparent, and use
+        // dark icons if we're in light theme
+        systemUiController.setSystemBarsColor(
+            color = FigGradientThree,
+            darkIcons = true
+        )
+
+        // setStatusBarColor() and setNavigationBarColor() also exist
+
+        onDispose {}
+    }
+
     MaterialTheme(
         colors = if (lightTheme) LightColorPalette else DarkColorPalette,
         typography = typography,

@@ -57,12 +57,10 @@ fun MenuItemCard(
     ) {
         //Row(modifier = Modifier.clickable(onClick = onClick)) {}
         ConstraintLayout(
-            modifier = Modifier.fillMaxSize()
+
         ) {
 
-            val (name, price, image, rating,
-                totalRaters, categoryName, deliveryDuration,
-                discount, favouriteIcon, ratingIcon ) = createRefs()
+            val (name, image, ratingIcon ) = createRefs()
 
             Box(
                modifier = Modifier

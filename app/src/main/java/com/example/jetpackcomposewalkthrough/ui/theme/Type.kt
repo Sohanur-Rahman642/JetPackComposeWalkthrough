@@ -49,13 +49,13 @@ val typography = Typography(
     ),
     subtitle1 = TextStyle(
         fontFamily = Inter,
-        fontSize = 18.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.Medium,
     ),
     subtitle2 = TextStyle(
         fontFamily = Inter,
-        fontSize = 16.sp,
-        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Medium,
     ),
     body1 = TextStyle(
         fontFamily = Inter,

@@ -52,5 +52,9 @@ object Libs {
         object Pager {
             const val accompanistPager = "com.google.accompanist:accompanist-pager:0.22.0-rc"
         }
+
+        object SystemSettings {
+            const val accompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
+        }
     }
 }

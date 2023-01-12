@@ -29,6 +29,7 @@ fun SliderItemCard(
         modifier = Modifier
             .width(350.dp)
             .height(200.dp)
+            .padding(start = 20.dp)
             .clickable(onClick = onClick),
 
         shape = MaterialTheme.shapes.medium,
