@@ -17,7 +17,13 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.jetpackcomposewalkthrough.navigation.NavigationItem
+import com.example.jetpackcomposewalkthrough.ui.cart.CartScreen
+import com.example.jetpackcomposewalkthrough.ui.category.CategoryScreen
+import com.example.jetpackcomposewalkthrough.ui.details.DetailsScreen
 import com.example.jetpackcomposewalkthrough.ui.home.HomeScreen
+import com.example.jetpackcomposewalkthrough.ui.main.MainScreen
+import com.example.jetpackcomposewalkthrough.ui.profile.ProfileScreen
 import com.example.jetpackcomposewalkthrough.ui.theme.JetPackComposeWalkthroughTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -27,23 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetPackComposeWalkthroughTheme {
                 // A surface container using the 'background' color from the theme
-                val navController = rememberNavController()
-
-                NavHost(navController = navController, startDestination = "home" ) {
-                    composable("home") {
-                        HomeScreen(
-                            onCategoryClick = { navController.navigate("menu") },
-                            onMenuItemClick = { navController.navigate("menu") },
-                        )
-                    }
-
-                    composable("menu") {
-                        println("At Menu")
-//                        HomeScreen(
-//
-//                        )
-                    }
-                }
+                MainScreen()
             }
         }
     }

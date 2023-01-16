@@ -40,6 +40,7 @@ fun JetPackComposeWalkthroughTheme(
     content: @Composable () -> Unit
 ) {
     val systemUiController = rememberSystemUiController()
+    systemUiController.isStatusBarVisible = false
 
     val useDarkIcons = !lightTheme
 

@@ -150,7 +150,7 @@ fun MenuItemCard(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(start = 10.dp, top = 2.dp, bottom = 2.dp, end = 10.dp),
-                        color = FigRed
+                        color = FigCrimson
                     )
                 }
 
