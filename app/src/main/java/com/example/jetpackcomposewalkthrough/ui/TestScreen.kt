@@ -47,13 +47,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 
-data class Person(
-    val id: Int,
-    val section: Int,
-    val name: String,
-    val imageUrl: String,
-    val landingPage: String
-)
 
 
 @Composable
@@ -64,27 +57,6 @@ fun ImageLoader(imageUrl: String){
         contentScale = ContentScale.Crop,
         modifier = Modifier.size(120.dp)
     )
-}
-
-@Composable
-fun ListItem(person: Person){
-    Card(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-
-        elevation = 8.dp,
-    ) {
-        Row{
-            ImageLoader(person.imageUrl)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                person.name+' '+person.id,
-                style = MaterialTheme.typography.h5,
-                modifier = Modifier.padding(8.dp)
-            )
-        }
-    }
 }
 
 
@@ -115,6 +87,32 @@ fun TestScreen() {
             }
         }
     }
+
+    val smartTabsContent = generateContent()
+    val tabs = smartTabsContent.filter { it is TabData.Header }
+    val indexes = smartTabsContent.mapTabs(isTab = {it is TabData.Header})
+    val selectedTabIndex = remember { mutableStateOf(0) }
+    //val verticalListState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(smartTabsContent, lazyListState) {
+        snapshotFlow { lazyListState.firstVisibleItemIndex }
+            .mapNotNull {
+                val tabData = smartTabsContent.getOrNull(it)
+                indexes[tabData]
+            }
+            .distinctUntilChanged()
+            .collectLatest {
+                selectedTabIndex.value = it
+            }
+    }
+
+    val scrollToItem = scroller(
+        verticalListState = lazyListState,
+        coroutineScope = coroutineScope,
+        smartTabsContent = smartTabsContent,
+    )
+
 
     Column(){
         LazyColumn(state = lazyListState){
@@ -194,34 +192,52 @@ fun TestScreen() {
                 }
             }
             item {
-                SmartTabsList(
-                    smartTabsContent = generateContent(),
-                    smartTab = { tab, _ ->
-                        Text(
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth(),
-                            text = tab.title,
-                            style = MaterialTheme.typography.h6
-                        )
-                    },
-                    smartItem = {
-                        Text(
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth(),
-                            text = it.title,
-                            style = MaterialTheme.typography.body1
-                        )
-                    }
-                )
-            }
-        }
+//                SmartTabsList(
+//                    smartTabsContent = generateContent(),
+//                    smartTab = { tab, _ ->
+//                        Text(
+//                            modifier = Modifier
+//                                .padding(16.dp)
+//                                .fillMaxWidth(),
+//                            text = tab.title,
+//                            style = MaterialTheme.typography.h6
+//                        )
+//                    },
+////                    smartItem = {
+////                        Text(
+////                            modifier = Modifier
+////                                .padding(16.dp)
+////                                .fillMaxWidth(),
+////                            text = it.title,
+////                            style = MaterialTheme.typography.body1
+////                        )
+////                    }
+//                )
+                AnimatedVisibility(
+                    visible = true
+                ) {
+                    SmartTabs(
+                        selectedTabIndex = selectedTabIndex.value,
+                        onTabSelected = {
+                            selectedTabIndex.value = it
+                        },
+                        scrollToItem = scrollToItem,
+                        tabs = tabs,
+                        smartTab = { tabData, _ ->
+                                Text(
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .fillMaxWidth(),
+                                    text = tabData.title,
+                                    style = MaterialTheme.typography.h6
+                            )
+                        },
+                    )
+                }
 
-        SmartTabsItems(
-            listState = verticalListState,
-            smartTabsContent = smartTabsContent,
-            smartItem = {
+            }
+
+            items( smartTabsContent ){ it ->
                 Text(
                     modifier = Modifier
                         .padding(16.dp)
@@ -230,7 +246,8 @@ fun TestScreen() {
                     style = MaterialTheme.typography.body1
                 )
             }
-        )
+
+        }
 
     }
 }
@@ -261,7 +278,7 @@ fun <T> SmartTabsList(
     smartTabsContent: List<T>,
     //isTab: (T) -> Boolean,
     smartTab: @Composable (T, Boolean) -> Unit,
-    smartItem: @Composable (T) -> Unit,
+   // smartItem: @Composable (T) -> Unit,
 ){
     val tabs = smartTabsContent.filter { it is TabData.Header }
     val indexes = smartTabsContent.mapTabs(isTab = {it is TabData.Header})
@@ -348,25 +365,25 @@ private fun <T> scroller(
     }
 }
 
-@Composable
-private fun <T> SmartTabsItems(
-    listState: LazyListState,
-    smartTabsContent: List<T>,
-    smartItem: @Composable (T) -> Unit,
-) {
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
-        state = listState
-    ) {
-        smartTabsContent.forEach {
-            item {
-                Box {
-                    smartItem(it)
-                }
-            }
-        }
-    }
-}
+//@Composable
+//private fun <T> SmartTabsItems(
+//    listState: LazyListState,
+//    smartTabsContent: List<T>,
+//    smartItem: @Composable (T) -> Unit,
+//) {
+//    LazyColumn(
+//        modifier = Modifier.fillMaxWidth(),
+//        state = listState
+//    ) {
+//        smartTabsContent.forEach {
+//            item {
+//                Box {
+//                    smartItem(it)
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 sealed class TabData(open val title: String) {
