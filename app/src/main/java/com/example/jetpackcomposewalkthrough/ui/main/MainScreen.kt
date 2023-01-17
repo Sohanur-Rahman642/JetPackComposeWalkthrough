@@ -1,5 +1,6 @@
 package com.example.jetpackcomposewalkthrough.ui.main
 
+import android.annotation.SuppressLint
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,6 +12,7 @@ import com.example.jetpackcomposewalkthrough.navigation.NavigationItem
 import com.example.jetpackcomposewalkthrough.ui.components.BottomNavigationBar
 import com.example.jetpackcomposewalkthrough.ui.components.TopAppBar
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()

@@ -64,7 +64,10 @@ dependencies {
     implementation Libs.AndroidX.Compose.runtimeLiveData
     implementation Libs.AndroidX.Compose.tooling
     implementation Libs.AndroidX.Pager.accompanistPager
+    implementation Libs.AndroidX.Pager.pagerIndicator
     implementation Libs.AndroidX.SystemSettings.accompanistSystemUiController
+
+    //implementation("com.quadible:smart-tabs:1.0.0")
 
     implementation Libs.AndroidX.Activity.activityCompose
 

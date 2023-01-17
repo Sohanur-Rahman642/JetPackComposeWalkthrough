@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposewalkthrough.navigation.NavigationItem
+import com.example.jetpackcomposewalkthrough.ui.TestScreen
 import com.example.jetpackcomposewalkthrough.ui.cart.CartScreen
 import com.example.jetpackcomposewalkthrough.ui.category.CategoryScreen
 import com.example.jetpackcomposewalkthrough.ui.details.DetailsScreen
@@ -25,15 +26,18 @@ import com.example.jetpackcomposewalkthrough.ui.home.HomeScreen
 import com.example.jetpackcomposewalkthrough.ui.main.MainScreen
 import com.example.jetpackcomposewalkthrough.ui.profile.ProfileScreen
 import com.example.jetpackcomposewalkthrough.ui.theme.JetPackComposeWalkthroughTheme
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalPagerApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             JetPackComposeWalkthroughTheme {
                 // A surface container using the 'background' color from the theme
-                MainScreen()
+                //MainScreen()
+                TestScreen()
             }
         }
     }
