@@ -15,9 +15,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.*
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.jetpackcomposewalkthrough.R
+import com.example.jetpackcomposewalkthrough.constants.Constants
 import com.example.jetpackcomposewalkthrough.data.MenuRepository
 import com.example.jetpackcomposewalkthrough.model.MenuItem
 import com.example.jetpackcomposewalkthrough.ui.components.CustomTopAppBar
+import com.example.jetpackcomposewalkthrough.ui.components.MenuItemCard
 import com.example.jetpackcomposewalkthrough.ui.theme.*
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
@@ -40,7 +42,9 @@ fun TestScreen() {
     println("smartTabsContent: $smartTabsContent")
     val tabs = smartTabsContent.filter { it is TabData.Header }
     val indexes = smartTabsContent.mapTabs(isTab = {it is TabData.Header})
+    println("indexes $indexes")
     val selectedTabIndex = remember { mutableStateOf(0) }
+    println("selectedTabIndex ${selectedTabIndex.value}")
     val coroutineScope = rememberCoroutineScope()
 
     val showWhiteAppBar by remember {
@@ -53,6 +57,7 @@ fun TestScreen() {
         snapshotFlow { lazyListState.firstVisibleItemIndex }
             .mapNotNull {
                 val tabData = smartTabsContent.getOrNull(it)
+                println("tabData $tabData")
                 indexes[tabData]
             }
             .distinctUntilChanged()
@@ -75,34 +80,34 @@ fun TestScreen() {
         LazyColumn(
             state = lazyListState,
         ){
-            item {
-            Box(
-                modifier = Modifier
-                    .fillParentMaxWidth()
-
-            ) {
-                Image(
-                    //painterResource(menuItem.image.removePrefix("drawable://").toInt()),
-                    painterResource(R.drawable.burger_xpress_cover),
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .height(250.dp)
-                        .fillMaxWidth()
-                )
-
-            }
-        }
-
-            item {
-                ConstraintLayout(
-                    modifier = Modifier
-                        .height(100.dp)
-                        .background(Color.White)
-                ) {
-
-                }
-            }
+//            item {
+//            Box(
+//                modifier = Modifier
+//                    .fillParentMaxWidth()
+//
+//            ) {
+//                Image(
+//                    //painterResource(menuItem.image.removePrefix("drawable://").toInt()),
+//                    painterResource(R.drawable.burger_xpress_cover),
+//                    contentDescription = "",
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier
+//                        .height(250.dp)
+//                        .fillMaxWidth()
+//                )
+//
+//            }
+//        }
+//
+//            item {
+//                ConstraintLayout(
+//                    modifier = Modifier
+//                        .height(100.dp)
+//                        .background(Color.White)
+//                ) {
+//
+//                }
+//            }
 
             stickyHeader {
                 AnimatedVisibility(
@@ -143,21 +148,56 @@ fun TestScreen() {
 
             }
 
-            items( smartTabsContent ){ it ->
+            smartTabsContent.forEach {tabs->
+                                item {
+                                    tabs.title?.let { title ->
+                                        Text(
+                                            modifier = Modifier
+                                                .padding(16.dp)
+                                                .fillMaxWidth(),
+                                            text = title,
+                                            style = MaterialTheme.typography.body1
+                                        )
+                                    }
+                                }
 
-                it.title?.let { it1 ->
-                    Text(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        text = it1,
-                        style = MaterialTheme.typography.body1
-                    )
-                }
-                Spacer(modifier = Modifier.height(60.dp))
+                                tabs.items?.let {
+                                    items( it ) { item->
+                                        Spacer(modifier = Modifier.width(16.dp))
+                                        MenuItemCard(
+                                            menuItem = item,
+                                            onClick = {},
+                                            type = Constants.TYPE_HORIZONTAL
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                    }
+                                }
             }
+
+//            items( smartTabsContent ){ it ->
+//                Text(
+//                        modifier = Modifier
+//                            .padding(16.dp)
+//                            .fillMaxWidth(),
+//                        text = it.title,
+//                        style = MaterialTheme.typography.body1
+//                    )
+//
+////                it.title?.let { it1 ->
+////                    Text(
+////                        modifier = Modifier
+////                            .padding(16.dp)
+////                            .fillMaxWidth(),
+////                        text = it1,
+////                        style = MaterialTheme.typography.body1
+////                    )
+////                }
+////                Spacer(modifier = Modifier.height(60.dp))
+//            }
+
+
         }
-        CustomTopAppBar(lazyListState, onBackClick = {}, showWhiteAppBar = showWhiteAppBar)
+       // CustomTopAppBar(lazyListState, onBackClick = {}, showWhiteAppBar = showWhiteAppBar)
 
     }
 }
@@ -169,15 +209,25 @@ private fun generateContent(): List<TabData> = buildList {
         it.categoryName
     }
 
+    println("groupedItem $groupedItem")
+
     groupedItem.forEach{
         add(TabData.Header(it.key))
-        add(TabData.Item(it.value))
+        add(TabData.Item( it.value))
     }
 
+//    repeat(100) {
+//        if (it % 15 == 0) {
+//            add(TabData.Header("Header- $it"))
+//        }else{
+//            add(TabData.Item("Item- $it"))
+//        }
+//    }
 
 }
 
 fun <T> List<T>.mapTabs(isTab: (T) -> Boolean): Map<T, Int> = buildMap {
+    println("isTab $isTab")
     var headerIndex = -1 // Tabs are zero-based. -1 means tha no tab exist
     this@mapTabs.forEach {
         if (isTab(it)) {
@@ -232,10 +282,15 @@ private fun <T> scroller(
 
 
 
-sealed class TabData(open val title: String?, open val item: List<MenuItem>?) {
+sealed class TabData(open val title: String?, open val items: List<MenuItem>?) {
 
     data class Header(override val title: String) : TabData(title = title, null)
 
-    data class Item(override val item: List<MenuItem>?) : TabData(null, item= item)
+    data class Item( override val items: List<MenuItem>) : TabData( null,  items = items)
 }
+
+//data class MenuContainer(
+//    var type: String,
+//    var items: List<MenuItem>
+//)
 
