@@ -6,24 +6,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.*
 import androidx.constraintlayout.compose.ConstraintLayout
-import coil.compose.rememberImagePainter
 import com.example.jetpackcomposewalkthrough.R
+import com.example.jetpackcomposewalkthrough.data.MenuRepository
+import com.example.jetpackcomposewalkthrough.model.MenuItem
 import com.example.jetpackcomposewalkthrough.ui.components.CustomTopAppBar
-import com.example.jetpackcomposewalkthrough.ui.components.PainterIcon
 import com.example.jetpackcomposewalkthrough.ui.theme.*
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
@@ -33,16 +27,8 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 
 
+val data = MenuRepository.getMenuData()
 
-@Composable
-fun ImageLoader(imageUrl: String){
-    Image(
-        painter = rememberImagePainter(imageUrl),
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier.size(120.dp)
-    )
-}
 
 
 @OptIn(ExperimentalUnitApi::class, ExperimentalFoundationApi::class)
@@ -51,6 +37,7 @@ fun ImageLoader(imageUrl: String){
 fun TestScreen() {
     val lazyListState = rememberLazyListState()
     val smartTabsContent = generateContent()
+    println("smartTabsContent: $smartTabsContent")
     val tabs = smartTabsContent.filter { it is TabData.Header }
     val indexes = smartTabsContent.mapTabs(isTab = {it is TabData.Header})
     val selectedTabIndex = remember { mutableStateOf(0) }
@@ -122,10 +109,14 @@ fun TestScreen() {
                     visible = true,
                         modifier = when ( showWhiteAppBar) {
                             true -> {
-                                Modifier.background(Color.White).padding(top = 60.dp)
+                                Modifier
+                                    .background(Color.White)
+                                    .padding(top = 60.dp)
                             }
                             else -> {
-                                Modifier.background(Color.White).padding(top = 10.dp)
+                                Modifier
+                                    .background(Color.White)
+                                    .padding(top = 10.dp)
                             }
                         }
                 ) {
@@ -141,7 +132,7 @@ fun TestScreen() {
                                 modifier = Modifier
                                     .padding(14.dp)
                                     .fillMaxWidth(),
-                                text = tabData.title,
+                                text = tabData.title!!,
                                 style = MaterialTheme.typography.subtitle1,
                                 color = FigHint
                             )
@@ -153,15 +144,18 @@ fun TestScreen() {
             }
 
             items( smartTabsContent ){ it ->
-                Text(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    text = it.title,
-                    style = MaterialTheme.typography.body1
-                )
-            }
 
+                it.title?.let { it1 ->
+                    Text(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        text = it1,
+                        style = MaterialTheme.typography.body1
+                    )
+                }
+                Spacer(modifier = Modifier.height(60.dp))
+            }
         }
         CustomTopAppBar(lazyListState, onBackClick = {}, showWhiteAppBar = showWhiteAppBar)
 
@@ -171,13 +165,16 @@ fun TestScreen() {
 
 
 private fun generateContent(): List<TabData> = buildList {
-    repeat(100) {
-        if (it % 15 == 0) {
-            add(TabData.Header("Header - $it"))
-        } else {
-            add(TabData.Item("Item - $it"))
-        }
+    val groupedItem = data.menuItems.groupBy {
+        it.categoryName
     }
+
+    groupedItem.forEach{
+        add(TabData.Header(it.key))
+        add(TabData.Item(it.value))
+    }
+
+
 }
 
 fun <T> List<T>.mapTabs(isTab: (T) -> Boolean): Map<T, Int> = buildMap {
@@ -227,6 +224,7 @@ private fun <T> scroller(
 ): (T) -> Unit = {
     coroutineScope.launch {
         val tabIndex = smartTabsContent.indexOf(it)
+        println("tabIndex $tabIndex")
         verticalListState.animateScrollToItem(index = tabIndex)
     }
 }
@@ -234,10 +232,10 @@ private fun <T> scroller(
 
 
 
-sealed class TabData(open val title: String) {
+sealed class TabData(open val title: String?, open val item: List<MenuItem>?) {
 
-    data class Header(override val title: String) : TabData(title = title)
+    data class Header(override val title: String) : TabData(title = title, null)
 
-    data class Item(override val title: String) : TabData(title = title)
+    data class Item(override val item: List<MenuItem>?) : TabData(null, item= item)
 }
 

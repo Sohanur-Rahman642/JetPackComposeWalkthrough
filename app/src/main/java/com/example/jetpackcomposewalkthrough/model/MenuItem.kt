@@ -3,7 +3,7 @@ package com.example.jetpackcomposewalkthrough.model
 data class MenuItem(
     val id: Long,
     val name: String,
-    val description: String,
+   // val description: String,
     val image: String,
     val price: Int,
     val categoryId: Long,

@@ -266,7 +266,7 @@ private fun MenuItemCardPreview() {
             menuItem = MenuItem(
                 id = 0,
                 name = "Burger Express",
-                description = "",
+                //description = "",
                 image = "",
                 price = 10,
                 categoryId = 0,

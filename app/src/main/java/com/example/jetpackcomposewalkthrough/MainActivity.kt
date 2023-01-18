@@ -37,7 +37,9 @@ class MainActivity : ComponentActivity() {
             JetPackComposeWalkthroughTheme {
                 // A surface container using the 'background' color from the theme
                 //MainScreen()
-                TestScreen()
+                TestScreen(
+                   // onItemClick = {}
+                )
             }
         }
     }
