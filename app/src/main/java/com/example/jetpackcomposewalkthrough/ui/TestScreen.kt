@@ -8,11 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,23 +18,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
-import androidx.navigation.compose.rememberNavController
-import coil.ImageLoader
+import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberImagePainter
 import com.example.jetpackcomposewalkthrough.R
-import com.example.jetpackcomposewalkthrough.navigation.NavigationConfiguration
-import com.example.jetpackcomposewalkthrough.ui.components.BottomNavigationBar
-import com.example.jetpackcomposewalkthrough.ui.components.CircularMenuItemCard
+import com.example.jetpackcomposewalkthrough.ui.components.CustomTopAppBar
 import com.example.jetpackcomposewalkthrough.ui.components.PainterIcon
-import com.example.jetpackcomposewalkthrough.ui.components.TopAppBar
-import com.example.jetpackcomposewalkthrough.ui.theme.FigCrimson
-import com.example.jetpackcomposewalkthrough.ui.theme.FigHint
-import com.example.jetpackcomposewalkthrough.ui.theme.FigNavUnselect
-import com.example.jetpackcomposewalkthrough.ui.theme.FigRed
+import com.example.jetpackcomposewalkthrough.ui.theme.*
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -65,35 +50,17 @@ fun ImageLoader(imageUrl: String){
 @Composable
 fun TestScreen() {
     val lazyListState = rememberLazyListState()
-
-    val visibility by remember {
-        derivedStateOf {
-            when {
-                lazyListState.layoutInfo.visibleItemsInfo.isNotEmpty() && lazyListState.firstVisibleItemIndex == 0 -> {
-                    val imageSize = lazyListState.layoutInfo.visibleItemsInfo[0].size
-                    val scrollOffset = lazyListState.firstVisibleItemScrollOffset
-
-                    scrollOffset / imageSize.toFloat()
-                }
-                else                                                                                               -> 1f
-            }
-        }
-    }
-    val firstItemTranslationY by remember {
-        derivedStateOf {
-            when {
-                lazyListState.layoutInfo.visibleItemsInfo.isNotEmpty() && lazyListState.firstVisibleItemIndex == 0 -> lazyListState.firstVisibleItemScrollOffset * .6f
-                else                                                                                               -> 0f
-            }
-        }
-    }
-
     val smartTabsContent = generateContent()
     val tabs = smartTabsContent.filter { it is TabData.Header }
     val indexes = smartTabsContent.mapTabs(isTab = {it is TabData.Header})
     val selectedTabIndex = remember { mutableStateOf(0) }
-    //val verticalListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+
+    val showWhiteAppBar by remember {
+        derivedStateOf {
+            lazyListState.firstVisibleItemIndex > 0
+        }
+    }
 
     LaunchedEffect(smartTabsContent, lazyListState) {
         snapshotFlow { lazyListState.firstVisibleItemIndex }
@@ -113,108 +80,54 @@ fun TestScreen() {
         smartTabsContent = smartTabsContent,
     )
 
+    Box(
+        modifier = Modifier
+            .background(FigBG1)
+    ){
 
-    Column(){
-        LazyColumn(state = lazyListState){
+        LazyColumn(
+            state = lazyListState,
+        ){
             item {
-                Box(
+            Box(
+                modifier = Modifier
+                    .fillParentMaxWidth()
+
+            ) {
+                Image(
+                    //painterResource(menuItem.image.removePrefix("drawable://").toInt()),
+                    painterResource(R.drawable.burger_xpress_cover),
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .fillParentMaxWidth()
-                        .graphicsLayer {
-                            alpha = 1f - visibility
-                            translationY = firstItemTranslationY
-                        }
+                        .height(250.dp)
+                        .fillMaxWidth()
+                )
+
+            }
+        }
+
+            item {
+                ConstraintLayout(
+                    modifier = Modifier
+                        .height(100.dp)
+                        .background(Color.White)
                 ) {
-                    Image(
-                        //painterResource(menuItem.image.removePrefix("drawable://").toInt()),
-                        painterResource(R.drawable.burger_xpress_cover),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .height(250.dp)
-                            .fillMaxWidth()
-                    )
-
-                    Surface(
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .padding(20.dp)
-                            .clip(CircleShape)
-                            .background(Color.White),
-                    ){
-                        com.example.jetpackcomposewalkthrough.ui.components.Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.arrowback),
-                            modifier = Modifier
-                                .size(25.dp)
-                                .padding(5.dp),
-                            tint = FigRed
-                        )
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(top = 20.dp, end = 20.dp),
-                    ){
-                        Surface(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .background(Color.White),
-                        ){
-                            com.example.jetpackcomposewalkthrough.ui.components.Icon(
-                                imageVector = ImageVector.vectorResource(id = R.drawable.shareicon),
-                                modifier = Modifier
-                                    .size(25.dp)
-                                    .padding(5.dp),
-                                tint = FigRed
-
-                            )
-                        }
-
-                        Spacer(Modifier.width(5.dp))
-
-                        Surface(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .background(Color.White),
-                        ){
-                            PainterIcon(
-                                painter = painterResource(id = R.drawable.heart),
-                                modifier = Modifier
-                                    .size(25.dp)
-                                    .padding(5.dp),
-                                tint = FigRed
-
-                            )
-                        }
-                    }
 
                 }
             }
-            item {
-//                SmartTabsList(
-//                    smartTabsContent = generateContent(),
-//                    smartTab = { tab, _ ->
-//                        Text(
-//                            modifier = Modifier
-//                                .padding(16.dp)
-//                                .fillMaxWidth(),
-//                            text = tab.title,
-//                            style = MaterialTheme.typography.h6
-//                        )
-//                    },
-////                    smartItem = {
-////                        Text(
-////                            modifier = Modifier
-////                                .padding(16.dp)
-////                                .fillMaxWidth(),
-////                            text = it.title,
-////                            style = MaterialTheme.typography.body1
-////                        )
-////                    }
-//                )
+
+            stickyHeader {
                 AnimatedVisibility(
-                    visible = true
+                    visible = true,
+                        modifier = when ( showWhiteAppBar) {
+                            true -> {
+                                Modifier.background(Color.White).padding(top = 60.dp)
+                            }
+                            else -> {
+                                Modifier.background(Color.White).padding(top = 10.dp)
+                            }
+                        }
                 ) {
                     SmartTabs(
                         selectedTabIndex = selectedTabIndex.value,
@@ -224,16 +137,18 @@ fun TestScreen() {
                         scrollToItem = scrollToItem,
                         tabs = tabs,
                         smartTab = { tabData, _ ->
-                                Text(
-                                    modifier = Modifier
-                                        .padding(16.dp)
-                                        .fillMaxWidth(),
-                                    text = tabData.title,
-                                    style = MaterialTheme.typography.h6
+                            Text(
+                                modifier = Modifier
+                                    .padding(14.dp)
+                                    .fillMaxWidth(),
+                                text = tabData.title,
+                                style = MaterialTheme.typography.subtitle1,
+                                color = FigHint
                             )
                         },
                     )
                 }
+
 
             }
 
@@ -248,9 +163,11 @@ fun TestScreen() {
             }
 
         }
+        CustomTopAppBar(lazyListState, onBackClick = {}, showWhiteAppBar = showWhiteAppBar)
 
     }
 }
+
 
 
 private fun generateContent(): List<TabData> = buildList {
@@ -273,59 +190,6 @@ fun <T> List<T>.mapTabs(isTab: (T) -> Boolean): Map<T, Int> = buildMap {
     }
 }
 
-@Composable
-fun <T> SmartTabsList(
-    smartTabsContent: List<T>,
-    //isTab: (T) -> Boolean,
-    smartTab: @Composable (T, Boolean) -> Unit,
-   // smartItem: @Composable (T) -> Unit,
-){
-    val tabs = smartTabsContent.filter { it is TabData.Header }
-    val indexes = smartTabsContent.mapTabs(isTab = {it is TabData.Header})
-    val selectedTabIndex = remember { mutableStateOf(0) }
-    val verticalListState = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
-
-    LaunchedEffect(smartTabsContent, verticalListState) {
-        snapshotFlow { verticalListState.firstVisibleItemIndex }
-            .mapNotNull {
-                val tabData = smartTabsContent.getOrNull(it)
-                indexes[tabData]
-            }
-            .distinctUntilChanged()
-            .collectLatest {
-                selectedTabIndex.value = it
-            }
-    }
-
-    val scrollToItem = scroller(
-        verticalListState = verticalListState,
-        coroutineScope = coroutineScope,
-        smartTabsContent = smartTabsContent,
-    )
-
-    Column {
-        AnimatedVisibility(
-            visible = true
-        ) {
-            SmartTabs(
-                selectedTabIndex = selectedTabIndex.value,
-                onTabSelected = {
-                    selectedTabIndex.value = it
-                },
-                scrollToItem = scrollToItem,
-                tabs = tabs,
-                smartTab = smartTab,
-            )
-        }
-
-//        SmartTabsItems(
-//            listState = verticalListState,
-//            smartTabsContent = smartTabsContent,
-//            smartItem = smartItem,
-//        )
-    }
-}
 
 @Composable
 private fun <T> SmartTabs(
@@ -337,7 +201,9 @@ private fun <T> SmartTabs(
 ) {
     ScrollableTabRow(
         selectedTabIndex = selectedTabIndex,
-        edgePadding = 0.dp
+        edgePadding = 0.dp,
+        backgroundColor = Color.White,
+        contentColor = FigCrimson
     ) {
         tabs.forEachIndexed { index, item ->
             Tab(
@@ -365,25 +231,7 @@ private fun <T> scroller(
     }
 }
 
-//@Composable
-//private fun <T> SmartTabsItems(
-//    listState: LazyListState,
-//    smartTabsContent: List<T>,
-//    smartItem: @Composable (T) -> Unit,
-//) {
-//    LazyColumn(
-//        modifier = Modifier.fillMaxWidth(),
-//        state = listState
-//    ) {
-//        smartTabsContent.forEach {
-//            item {
-//                Box {
-//                    smartItem(it)
-//                }
-//            }
-//        }
-//    }
-//}
+
 
 
 sealed class TabData(open val title: String) {

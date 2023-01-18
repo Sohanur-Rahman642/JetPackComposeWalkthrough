@@ -35,33 +35,6 @@ fun DetailsScreen(
     itemId: Long,
     onBackClick: () -> Unit
 ) {
-    val scrollState = rememberScrollState()
-    val lazyListState = rememberLazyListState()
-
-    val visibility by remember {
-        derivedStateOf {
-            when {
-                lazyListState.layoutInfo.visibleItemsInfo.isNotEmpty() && lazyListState.firstVisibleItemIndex == 0 -> {
-                    val imageSize = lazyListState.layoutInfo.visibleItemsInfo[0].size
-                    val scrollOffset = lazyListState.firstVisibleItemScrollOffset
-
-                    scrollOffset / imageSize.toFloat()
-                }
-                else                                                                                               -> 1f
-            }
-        }
-    }
-    val firstItemTranslationY by remember {
-        derivedStateOf {
-            when {
-                lazyListState.layoutInfo.visibleItemsInfo.isNotEmpty() && lazyListState.firstVisibleItemIndex == 0 -> lazyListState.firstVisibleItemScrollOffset * .6f
-                else                                                                                               -> 0f
-            }
-        }
-    }
-
-    println("visibility: $visibility")
-    println("firstItemTranslationY: $firstItemTranslationY")
 
 
 }

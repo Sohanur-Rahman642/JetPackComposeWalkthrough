@@ -16,15 +16,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposewalkthrough.R
-import com.example.jetpackcomposewalkthrough.ui.home.HomeScreen
 import com.example.jetpackcomposewalkthrough.ui.theme.*
 
 @Composable
-fun TopAppBar() {
+fun TopLocationBar() {
     Box(
         modifier = Modifier
             .background(
@@ -172,11 +168,11 @@ fun TopAppBar() {
 
 
 
-@Preview("HomeScreen")
+@Preview("TopLocationBar")
 @Composable
-private fun HomeScreenPreview() {
+private fun TopLocationBarPreview() {
     JetPackComposeWalkthroughTheme {
-        TopAppBar(
+        TopLocationBar(
 
         )
     }

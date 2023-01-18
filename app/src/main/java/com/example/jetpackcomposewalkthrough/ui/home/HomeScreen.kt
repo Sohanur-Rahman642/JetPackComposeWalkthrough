@@ -27,7 +27,7 @@ fun HomeScreen(
     onItemClick: (Long) -> Unit
 ) {
    Scaffold(
-       topBar = {   TopAppBar() },
+       topBar = {   TopLocationBar() },
    ) {
        val data = HomeRepository.getHomeData()
 
