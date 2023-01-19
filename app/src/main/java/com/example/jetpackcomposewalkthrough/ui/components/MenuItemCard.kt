@@ -40,7 +40,6 @@ fun MenuItemCard(
     onClick: () -> Unit,
     type: String
 ) {
-    println("image url: ${menuItem.image}")
     Card(
         modifier = when( type ) {
             Constants.TYPE_VERTICAL -> Modifier

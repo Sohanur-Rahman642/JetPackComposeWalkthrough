@@ -18,7 +18,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposewalkthrough.navigation.NavigationItem
-import com.example.jetpackcomposewalkthrough.ui.TestScreen
 import com.example.jetpackcomposewalkthrough.ui.cart.CartScreen
 import com.example.jetpackcomposewalkthrough.ui.category.CategoryScreen
 import com.example.jetpackcomposewalkthrough.ui.details.DetailsScreen
@@ -36,10 +35,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetPackComposeWalkthroughTheme {
                 // A surface container using the 'background' color from the theme
-                //MainScreen()
-                TestScreen(
-                   // onItemClick = {}
-                )
+                MainScreen()
+//                TestScreen(
+//                   // onItemClick = {}
+//                )
             }
         }
     }

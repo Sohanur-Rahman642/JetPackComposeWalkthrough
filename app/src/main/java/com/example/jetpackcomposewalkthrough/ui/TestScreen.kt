@@ -1,23 +1,36 @@
 package com.example.jetpackcomposewalkthrough.ui
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.jetpackcomposewalkthrough.R
 import com.example.jetpackcomposewalkthrough.constants.Constants
 import com.example.jetpackcomposewalkthrough.data.MenuRepository
+import com.example.jetpackcomposewalkthrough.data.SectionRepository
 import com.example.jetpackcomposewalkthrough.model.MenuItem
+import com.example.jetpackcomposewalkthrough.model.MenuSections
+import com.example.jetpackcomposewalkthrough.ui.components.CollapsingToolbar
 import com.example.jetpackcomposewalkthrough.ui.components.CustomTopAppBar
 import com.example.jetpackcomposewalkthrough.ui.components.MenuItemCard
 import com.example.jetpackcomposewalkthrough.ui.theme.*
@@ -29,75 +42,75 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 
 
-val data = MenuRepository.getMenuData()
 
 
-
-@OptIn(ExperimentalUnitApi::class, ExperimentalFoundationApi::class)
-@ExperimentalPagerApi
-@Composable
-fun TestScreen() {
-    val lazyListState = rememberLazyListState()
-    val smartTabsContent = generateContent()
-    println("smartTabsContent: $smartTabsContent")
-    val tabs = smartTabsContent.filter { it is TabData.Header }
-    val indexes = smartTabsContent.mapTabs(isTab = {it is TabData.Header})
-    println("indexes $indexes")
-    val selectedTabIndex = remember { mutableStateOf(0) }
-    println("selectedTabIndex ${selectedTabIndex.value}")
-    val coroutineScope = rememberCoroutineScope()
-
-    val showWhiteAppBar by remember {
-        derivedStateOf {
-            lazyListState.firstVisibleItemIndex > 0
-        }
-    }
-
-    LaunchedEffect(smartTabsContent, lazyListState) {
-        snapshotFlow { lazyListState.firstVisibleItemIndex }
-            .mapNotNull {
-                val tabData = smartTabsContent.getOrNull(it)
-                println("tabData $tabData")
-                indexes[tabData]
-            }
-            .distinctUntilChanged()
-            .collectLatest {
-                selectedTabIndex.value = it
-            }
-    }
-
-    val scrollToItem = scroller(
-        verticalListState = lazyListState,
-        coroutineScope = coroutineScope,
-        smartTabsContent = smartTabsContent,
-    )
-
-    Box(
-        modifier = Modifier
-            .background(FigBG1)
-    ){
-
-        LazyColumn(
-            state = lazyListState,
-        ){
-//            item {
-//            Box(
-//                modifier = Modifier
-//                    .fillParentMaxWidth()
 //
-//            ) {
-//                Image(
-//                    //painterResource(menuItem.image.removePrefix("drawable://").toInt()),
-//                    painterResource(R.drawable.burger_xpress_cover),
-//                    contentDescription = "",
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier
-//                        .height(250.dp)
-//                        .fillMaxWidth()
-//                )
+//@OptIn(ExperimentalUnitApi::class, ExperimentalFoundationApi::class)
+//@ExperimentalPagerApi
+//@Composable
+//fun TestScreen() {
+//    val data = SectionRepository.getMenuSections()
+//    val scope = rememberCoroutineScope()
 //
+//    val sectionsListState = rememberLazyListState()
+//    val itemsListState = rememberLazyListState()
+//    var selectedSectionIndex by remember { mutableStateOf(0) }
+//
+//    val showWhiteAppBar by remember {
+//        derivedStateOf {
+//            itemsListState.firstVisibleItemIndex > 0
+//        }
+//    }
+//
+//    val onPostScroll : () -> Unit = {
+//        val currentSectionIndex = itemsListState.firstVisibleItemIndex
+//        println("currentSectionIndex12345 $currentSectionIndex")
+//        println("selectedSectionIndex12345 $selectedSectionIndex")
+//        if (selectedSectionIndex != currentSectionIndex) {
+//            selectedSectionIndex = currentSectionIndex
+//
+//            scope.launch {
+//                sectionsListState.animateScrollToItem(currentSectionIndex)
 //            }
 //        }
+//    }
+//
+//    Box(){
+//
+//        LazyColumn(
+//            state = itemsListState,
+//            modifier = Modifier
+//                .padding()
+//                .nestedScroll(object : NestedScrollConnection {
+//                    override fun onPostScroll(
+//                        consumed: Offset,
+//                        available: Offset,
+//                        source: NestedScrollSource
+//                    ): Offset {
+//                        onPostScroll()
+//                        return super.onPostScroll(consumed, available, source)
+//                    }
+//                })
+//        ) {
+//
+//            item {
+//                Box(
+//                    modifier = Modifier
+//                        .fillParentMaxWidth()
+//
+//                ) {
+//                    Image(
+//                        //painterResource(menuItem.image.removePrefix("drawable://").toInt()),
+//                        painterResource(R.drawable.burger_xpress_cover),
+//                        contentDescription = "",
+//                        contentScale = ContentScale.Crop,
+//                        modifier = Modifier
+//                            .height(250.dp)
+//                            .fillMaxWidth()
+//                    )
+//
+//                }
+//            }
 //
 //            item {
 //                ConstraintLayout(
@@ -108,189 +121,128 @@ fun TestScreen() {
 //
 //                }
 //            }
-
-            stickyHeader {
-                AnimatedVisibility(
-                    visible = true,
-                        modifier = when ( showWhiteAppBar) {
-                            true -> {
-                                Modifier
-                                    .background(Color.White)
-                                    .padding(top = 60.dp)
-                            }
-                            else -> {
-                                Modifier
-                                    .background(Color.White)
-                                    .padding(top = 10.dp)
-                            }
-                        }
-                ) {
-                    SmartTabs(
-                        selectedTabIndex = selectedTabIndex.value,
-                        onTabSelected = {
-                            selectedTabIndex.value = it
-                        },
-                        scrollToItem = scrollToItem,
-                        tabs = tabs,
-                        smartTab = { tabData, _ ->
-                            Text(
-                                modifier = Modifier
-                                    .padding(14.dp)
-                                    .fillMaxWidth(),
-                                text = tabData.title!!,
-                                style = MaterialTheme.typography.subtitle1,
-                                color = FigHint
-                            )
-                        },
-                    )
-                }
-
-
-            }
-
-            smartTabsContent.forEach {tabs->
-                                item {
-                                    tabs.title?.let { title ->
-                                        Text(
-                                            modifier = Modifier
-                                                .padding(16.dp)
-                                                .fillMaxWidth(),
-                                            text = title,
-                                            style = MaterialTheme.typography.body1
-                                        )
-                                    }
-                                }
-
-                                tabs.items?.let {
-                                    items( it ) { item->
-                                        Spacer(modifier = Modifier.width(16.dp))
-                                        MenuItemCard(
-                                            menuItem = item,
-                                            onClick = {},
-                                            type = Constants.TYPE_HORIZONTAL
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                    }
-                                }
-            }
-
-//            items( smartTabsContent ){ it ->
-//                Text(
-//                        modifier = Modifier
-//                            .padding(16.dp)
-//                            .fillMaxWidth(),
-//                        text = it.title,
-//                        style = MaterialTheme.typography.body1
-//                    )
 //
-////                it.title?.let { it1 ->
-////                    Text(
-////                        modifier = Modifier
-////                            .padding(16.dp)
-////                            .fillMaxWidth(),
-////                        text = it1,
-////                        style = MaterialTheme.typography.body1
-////                    )
-////                }
-////                Spacer(modifier = Modifier.height(60.dp))
+//
+//
+//            stickyHeader {
+//
+//                MenuSectionsView(
+//                    selectedIndex = selectedSectionIndex,
+//                    menuSections = data,
+//                    sectionsListState = sectionsListState,
+//                    onClick = { sectionIndex ->
+//                        println("sectionIndex $sectionIndex")
+//                        selectedSectionIndex = sectionIndex
+//
+//
+//                        scope.launch {
+//                            sectionsListState.animateScrollToItem(sectionIndex)
+//                            itemsListState.animateScrollToItem(sectionIndex)
+//                        }
+//                    }
+//                )
+//
+//                Divider()
 //            }
-
-
-        }
-       // CustomTopAppBar(lazyListState, onBackClick = {}, showWhiteAppBar = showWhiteAppBar)
-
-    }
-}
-
-
-
-private fun generateContent(): List<TabData> = buildList {
-    val groupedItem = data.menuItems.groupBy {
-        it.categoryName
-    }
-
-    println("groupedItem $groupedItem")
-
-    groupedItem.forEach{
-        add(TabData.Header(it.key))
-        add(TabData.Item( it.value))
-    }
-
-//    repeat(100) {
-//        if (it % 15 == 0) {
-//            add(TabData.Header("Header- $it"))
-//        }else{
-//            add(TabData.Item("Item- $it"))
+//
+////            item {
+////                Spacer(modifier = Modifier.height(60.dp))
+////            }
+//
+//            data.forEach { section ->
+//                item {
+//                    Text(
+//                        modifier = Modifier.padding(10.dp),
+//                        text = section.title,
+//                        style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+//                        color = FigCrimson
+//                    )
+//                    MenuItemView(section)
+//                }
+//            }
+//        }
+//
+//        CustomTopAppBar(itemsListState, onBackClick = {}, showWhiteAppBar = showWhiteAppBar)
+//    }
+//}
+//
+//
+//
+//@Composable
+//fun MenuItemView(section: MenuSections) {
+//    Column() {
+//        section.menuItems.forEach { menuItem ->
+//                MenuItemCard(menuItem = menuItem, onClick = { /*TODO*/ }, type = Constants.TYPE_VERTICAL)
+//                Spacer(modifier = Modifier.height(10.dp))
+//            }
+//        }
+//}
+//
+//
+//@Composable
+//fun MenuSectionsView(
+//    selectedIndex: Int,
+//    menuSections: List<MenuSections>,
+//    sectionsListState: LazyListState,
+//    onClick: (sectionIndex: Int) -> Unit,
+//) {
+//    LazyRow(
+//        modifier = Modifier.padding().background(Color.White),
+//        state = sectionsListState
+//    ) {
+//        menuSections.forEachIndexed { i, section ->
+//            item {
+//                SectionTextView(
+//                    modifier = Modifier
+//                        .padding(horizontal = 10.dp)
+//                        .clickable { onClick(i) },
+//                    text = section.title,
+//                    isSelected = selectedIndex == i
+//                )
+//            }
 //        }
 //    }
-
-}
-
-fun <T> List<T>.mapTabs(isTab: (T) -> Boolean): Map<T, Int> = buildMap {
-    println("isTab $isTab")
-    var headerIndex = -1 // Tabs are zero-based. -1 means tha no tab exist
-    this@mapTabs.forEach {
-        if (isTab(it)) {
-            headerIndex++
-        }
-        this[it] = headerIndex
-    }
-}
-
-
-@Composable
-private fun <T> SmartTabs(
-    selectedTabIndex: Int,
-    onTabSelected: (Int) -> Unit,
-    scrollToItem: (T) -> Unit,
-    tabs: List<T>,
-    smartTab: @Composable (T, Boolean) -> Unit,
-) {
-    ScrollableTabRow(
-        selectedTabIndex = selectedTabIndex,
-        edgePadding = 0.dp,
-        backgroundColor = Color.White,
-        contentColor = FigCrimson
-    ) {
-        tabs.forEachIndexed { index, item ->
-            Tab(
-                selected = selectedTabIndex == index,
-                onClick = {
-                    onTabSelected(index)
-                    scrollToItem(item)
-                }
-            ) {
-                smartTab(item, selectedTabIndex == index)
-            }
-        }
-    }
-}
-
-
-private fun <T> scroller(
-    verticalListState: LazyListState,
-    coroutineScope: CoroutineScope,
-    smartTabsContent: List<T>,
-): (T) -> Unit = {
-    coroutineScope.launch {
-        val tabIndex = smartTabsContent.indexOf(it)
-        println("tabIndex $tabIndex")
-        verticalListState.animateScrollToItem(index = tabIndex)
-    }
-}
+//}
+//
+//
+//@Composable
+//fun SectionTextView(
+//    modifier: Modifier = Modifier,
+//    text: String,
+//    isSelected: Boolean
+//) {
+//    Column(modifier) {
+//        var textWidth by remember { mutableStateOf(0.dp) }
+//        val density = LocalDensity.current
+//
+//        Text(
+//            modifier = Modifier.onGloballyPositioned {
+//                textWidth = with(density) { it.size.width.toDp() } //update text width value according to the content size
+//            },
+//            text = text,
+//            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+//            color = if (isSelected) FigCrimson else Color.DarkGray
+//        )
+//
+//        //Show the text underline with animation
+//        AnimatedVisibility(
+//            visible = isSelected,
+//            enter = expandHorizontally() + fadeIn(),
+//            exit = shrinkHorizontally() + fadeOut()
+//        ) {
+//            Box(
+//                Modifier
+//                    .width(textWidth)
+//                    .padding(top = 15.dp)
+//                    .height(3.dp)
+//                    .background(FigCrimson)
+//            ) {}
+//        }
+//    }
+//}
 
 
 
 
-sealed class TabData(open val title: String?, open val items: List<MenuItem>?) {
 
-    data class Header(override val title: String) : TabData(title = title, null)
-
-    data class Item( override val items: List<MenuItem>) : TabData( null,  items = items)
-}
-
-//data class MenuContainer(
-//    var type: String,
-//    var items: List<MenuItem>
-//)
 
