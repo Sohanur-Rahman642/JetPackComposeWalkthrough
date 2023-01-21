@@ -1,7 +1,6 @@
 package com.example.jetpackcomposewalkthrough.data
 
 import com.example.jetpackcomposewalkthrough.R
-import com.example.jetpackcomposewalkthrough.model.Menu
 import com.example.jetpackcomposewalkthrough.model.MenuItem
 import com.example.jetpackcomposewalkthrough.model.MenuSections
 
@@ -25,6 +24,7 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Burger",
                     ),
                     MenuItem(
                         id = 1002,
@@ -39,6 +39,7 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Chicken",
                     ),
                     MenuItem(
                         id = 1003,
@@ -53,6 +54,7 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Fried rice",
                     ),
                     MenuItem(
                         id = 1004,
@@ -67,6 +69,7 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Chicken",
                     ),
                 )
             ),
@@ -74,7 +77,7 @@ object SectionRepository {
                 title = "Snacks",
                 menuItems = listOf(
                     MenuItem(
-                        id = 1001,
+                        id = 1005,
                         name = "Samosas",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.samosas,
@@ -86,9 +89,10 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Samosa",
                     ),
                     MenuItem(
-                        id = 1002,
+                        id = 1006,
                         name = "Shawarma",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.shawarma,
@@ -100,9 +104,10 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Shawarma",
                     ),
                     MenuItem(
-                        id = 1003,
+                        id = 1007,
                         name = "Corn chips",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.corn_chips,
@@ -114,6 +119,7 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Chips",
                     ),
 //                    MenuItem(
 //                        id = 1004,
@@ -135,7 +141,7 @@ object SectionRepository {
                 title = "Chicken",
                 menuItems = listOf(
                     MenuItem(
-                        id = 1001,
+                        id = 1008,
                         name = "Grill chicken legs",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.grill_chicken_legs,
@@ -147,9 +153,10 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Chicken",
                     ),
                     MenuItem(
-                        id = 1002,
+                        id = 1009,
                         name = "Crispy fried chicken",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.crispy_fried_chicken,
@@ -161,9 +168,10 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Chicken",
                     ),
                     MenuItem(
-                        id = 1003,
+                        id = 1010,
                             name = "Chicken lies",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.chicken_lies,
@@ -175,6 +183,7 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Chicken",
                     ),
 
                 )
@@ -183,7 +192,7 @@ object SectionRepository {
                 title = "Sandwich",
                 menuItems = listOf(
                     MenuItem(
-                        id = 1001,
+                        id = 1011,
                         name = "Sandwich Club",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.shawarma,
@@ -195,9 +204,10 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Sandwich",
                     ),
                     MenuItem(
-                        id = 1002,
+                        id = 1012,
                         name = "Sandwich Club",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.shawarma,
@@ -209,9 +219,10 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Sandwich",
                     ),
                     MenuItem(
-                        id = 1003,
+                        id = 1013,
                         name = "Sandwich Club",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.shawarma,
@@ -223,6 +234,7 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Sandwich",
                     ),
                 )
             ),
@@ -230,7 +242,7 @@ object SectionRepository {
                 title = "Pasta",
                 menuItems = listOf(
                     MenuItem(
-                        id = 1001,
+                        id = 1014,
                         name = "Pasta Vasta",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.corn_chips,
@@ -242,9 +254,10 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Pasta",
                     ),
                     MenuItem(
-                        id = 1002,
+                        id = 1015,
                         name = "Pasta World",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.corn_chips,
@@ -256,9 +269,10 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Pasta",
                     ),
                     MenuItem(
-                        id = 1003,
+                        id = 1016,
                         name = "Alltime Pasta",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
                         image = "drawable://" + R.drawable.corn_chips,
@@ -270,6 +284,7 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Pasta",
                     ),
                 )
             ),
@@ -277,10 +292,10 @@ object SectionRepository {
                 title = "Pizza",
                 menuItems = listOf(
                     MenuItem(
-                        id = 1001,
+                        id = 1017,
                         name = "Pizza Burg",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
-                        image = "drawable://" + R.drawable.samosas,
+                        image = "drawable://" + R.drawable.pizza_burg,
                         price = MenuRepository.getRandomPrice(),
                         categoryId = 1,
                         categoryName = "Pizza",
@@ -289,12 +304,18 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Pizza",
+                        selections = listOf(
+                            Pair("Single 7 inch", 369),
+                            Pair("Couple 10 inch", 369),
+                            Pair("Friends 12 inch", 369),
+                        )
                     ),
                     MenuItem(
-                        id = 1002,
+                        id = 1018,
                         name = "Pizza Burg",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
-                        image = "drawable://" + R.drawable.samosas,
+                        image = "drawable://" + R.drawable.pizza_burg,
                         price = MenuRepository.getRandomPrice(),
                         categoryId = 1,
                         categoryName = "Pizza",
@@ -303,12 +324,18 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Pizza",
+                        selections = listOf(
+                            Pair("Single 7 inch", 369),
+                            Pair("Couple 10 inch", 369),
+                            Pair("Friends 12 inch", 369),
+                        )
                     ),
                     MenuItem(
-                        id = 1003,
+                        id = 1019,
                         name = "Pizza Burg",
                         // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
-                        image = "drawable://" + R.drawable.samosas,
+                        image = "drawable://" + R.drawable.pizza_burg,
                         price = MenuRepository.getRandomPrice(),
                         categoryId = 1,
                         categoryName = "Pizza",
@@ -317,6 +344,12 @@ object SectionRepository {
                         deliveryDuration = "20 min",
                         discountRate = 10,
                         isFavourite = false,
+                        foodType = "Pizza",
+                        selections = listOf(
+                            Pair("Single 7 inch", 369),
+                            Pair("Couple 10 inch", 369),
+                            Pair("Friends 12 inch", 369),
+                        )
                     ),
 //                    MenuItem(
 //                        id = 1004,

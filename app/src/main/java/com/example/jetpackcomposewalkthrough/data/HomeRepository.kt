@@ -2,7 +2,7 @@ package com.example.jetpackcomposewalkthrough.data
 import com.example.jetpackcomposewalkthrough.R
 import com.example.jetpackcomposewalkthrough.data.MenuRepository.getRandomPrice
 import com.example.jetpackcomposewalkthrough.model.Home
-import com.example.jetpackcomposewalkthrough.model.MenuItem
+import com.example.jetpackcomposewalkthrough.model.ResturantDishDetails
 import com.example.jetpackcomposewalkthrough.model.User
 
 
@@ -17,7 +17,7 @@ object HomeRepository {
             circularMenuItems = ItemRepository.getCircularItemData(),
             imageSliderItems = SliderRepository.getSliderItemData(),
             popularMenuItems = listOf(
-                MenuItem(
+                ResturantDishDetails(
                     id = 1001,
                     name = "Burger Express",
                     //description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
@@ -31,7 +31,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1002,
                     name = "Tehari Station",
                     //description = "Each Quarter Pounder with Cheese burger features a ¼ lb. of 100% fresh beef that’s hot, deliciously juicy and cooked when you order. It’s seasoned with just a pinch of salt and pepper, sizzled on a flat iron grill, then topped with slivered onions, tangy pickles and two slices of melty cheese on a sesame seed bun.",
@@ -44,8 +44,9 @@ object HomeRepository {
                     deliveryDuration = "20 min",
                     discountRate = 10,
                     isFavourite = false,
+
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1003,
                     name = "Burger Express",
                    // description = "Each Double Quarter Pounder with Cheese features two quarter pound 100% fresh beef burger patties that are hot, deliciously juicy and cooked when you order. McDonald’s beef patties are seasoned with just a pinch of salt and pepper, sizzled on a flat iron grill, then topped with slivered onions, tangy pickles and two slices of melty cheese on a sesame seed bun.",
@@ -59,7 +60,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1004,
                     name = "Tehari Station",
                     ///description = "The Quarter Pounder with Cheese Deluxe is a fresh take on a Quarter Pounder classic burger. Crisp leaf lettuce and three Roma tomato slices top a ¼ lb. of 100% McDonald’s fresh beef that’s hot, deliciously juicy and cooked when you order. Seasoned with just a pinch of salt and pepper and sizzled on our flat iron grill. Layered with two slices of melty American cheese, creamy mayo, slivered onions and tangy pickles on a soft, fluffy sesame seed hamburger bun.",
@@ -73,7 +74,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1005,
                     name = "Burger Express",
                    //description = "A classic double burger from McDonald’s, the McDouble stacks two 100% pure beef patties seasoned with just a pinch of salt and pepper. It’s topped with tangy pickles, chopped onions, ketchup, mustard and a slice of melty American cheese.",
@@ -87,7 +88,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1006,
                     name = "Tehari Station",
                     //description = "Each Quarter Pounder with Cheese Bacon burger features thick-cut applewood smoked bacon atop a ¼ lb. of 100% fresh McDonald’s beef that’s cooked when you order. It’s a hot, deliciously juicy bacon cheeseburger, seasoned with just a pinch of salt and pepper and sizzled on our flat iron grill. Layered with two slices of melty American cheese, slivered onions and tangy pickles on a soft, fluffy sesame seed hamburger bun.",
@@ -103,7 +104,7 @@ object HomeRepository {
                 ),
             ),
             featuredMenuItems = listOf(
-                MenuItem(
+                ResturantDishDetails(
                     id = 1001,
                     name = "Tehari Station",
                    // description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
@@ -117,7 +118,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1002,
                     name = "Special Thai King",
                    // description = "Each Quarter Pounder with Cheese burger features a ¼ lb. of 100% fresh beef that’s hot, deliciously juicy and cooked when you order. It’s seasoned with just a pinch of salt and pepper, sizzled on a flat iron grill, then topped with slivered onions, tangy pickles and two slices of melty cheese on a sesame seed bun.",
@@ -131,7 +132,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1003,
                     name = "Burger Express",
                    // description = "Each Double Quarter Pounder with Cheese features two quarter pound 100% fresh beef burger patties that are hot, deliciously juicy and cooked when you order. McDonald’s beef patties are seasoned with just a pinch of salt and pepper, sizzled on a flat iron grill, then topped with slivered onions, tangy pickles and two slices of melty cheese on a sesame seed bun.",
@@ -145,7 +146,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1004,
                     name = "Special Thai King",
                   //  description = "The Quarter Pounder with Cheese Deluxe is a fresh take on a Quarter Pounder classic burger. Crisp leaf lettuce and three Roma tomato slices top a ¼ lb. of 100% McDonald’s fresh beef that’s hot, deliciously juicy and cooked when you order. Seasoned with just a pinch of salt and pepper and sizzled on our flat iron grill. Layered with two slices of melty American cheese, creamy mayo, slivered onions and tangy pickles on a soft, fluffy sesame seed hamburger bun.",
@@ -159,7 +160,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1005,
                     name = "Burger Express",
                    // description = "A classic double burger from McDonald’s, the McDouble stacks two 100% pure beef patties seasoned with just a pinch of salt and pepper. It’s topped with tangy pickles, chopped onions, ketchup, mustard and a slice of melty American cheese.",
@@ -173,7 +174,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1006,
                     name = "Special Thai King",
                   //  description = "Each Quarter Pounder with Cheese Bacon burger features thick-cut applewood smoked bacon atop a ¼ lb. of 100% fresh McDonald’s beef that’s cooked when you order. It’s a hot, deliciously juicy bacon cheeseburger, seasoned with just a pinch of salt and pepper and sizzled on our flat iron grill. Layered with two slices of melty American cheese, slivered onions and tangy pickles on a soft, fluffy sesame seed hamburger bun.",
@@ -189,7 +190,7 @@ object HomeRepository {
                 ),
             ),
             sweetToothItems = listOf(
-                MenuItem(
+                ResturantDishDetails(
                     id = 1001,
                     name = "Bhagyakul Mistanna Bhander",
                   //  description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
@@ -203,7 +204,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1002,
                     name = "Cooper - Bashundhara",
                  //   description = "Each Quarter Pounder with Cheese burger features a ¼ lb. of 100% fresh beef that’s hot, deliciously juicy and cooked when you order. It’s seasoned with just a pinch of salt and pepper, sizzled on a flat iron grill, then topped with slivered onions, tangy pickles and two slices of melty cheese on a sesame seed bun.",
@@ -217,7 +218,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1003,
                     name = "Bhagyakul Mistanna Bhander",
                   //  description = "Each Double Quarter Pounder with Cheese features two quarter pound 100% fresh beef burger patties that are hot, deliciously juicy and cooked when you order. McDonald’s beef patties are seasoned with just a pinch of salt and pepper, sizzled on a flat iron grill, then topped with slivered onions, tangy pickles and two slices of melty cheese on a sesame seed bun.",
@@ -231,7 +232,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1004,
                     name = "Cooper - Bashundhara",
                  //   description = "The Quarter Pounder with Cheese Deluxe is a fresh take on a Quarter Pounder classic burger. Crisp leaf lettuce and three Roma tomato slices top a ¼ lb. of 100% McDonald’s fresh beef that’s hot, deliciously juicy and cooked when you order. Seasoned with just a pinch of salt and pepper and sizzled on our flat iron grill. Layered with two slices of melty American cheese, creamy mayo, slivered onions and tangy pickles on a soft, fluffy sesame seed hamburger bun.",
@@ -245,7 +246,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1005,
                     name = "Bhagyakul Mistanna Bhander",
                  //   description = "A classic double burger from McDonald’s, the McDouble stacks two 100% pure beef patties seasoned with just a pinch of salt and pepper. It’s topped with tangy pickles, chopped onions, ketchup, mustard and a slice of melty American cheese.",
@@ -259,7 +260,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1006,
                     name = "Cooper - Bashundhara",
                  //   description = "Each Quarter Pounder with Cheese Bacon burger features thick-cut applewood smoked bacon atop a ¼ lb. of 100% fresh McDonald’s beef that’s cooked when you order. It’s a hot, deliciously juicy bacon cheeseburger, seasoned with just a pinch of salt and pepper and sizzled on our flat iron grill. Layered with two slices of melty American cheese, slivered onions and tangy pickles on a soft, fluffy sesame seed hamburger bun.",
@@ -275,7 +276,7 @@ object HomeRepository {
                 ),
             ),
             allRestaurantsMenuItems = listOf(
-                MenuItem(
+                ResturantDishDetails(
                     id = 1001,
                     name = "Magpie Restaurant - Bashundhara",
                 //    description = "Mouthwatering perfection starts with two 100% pure beef patties and Big Mac sauce sandwiched between a sesame seed bun. It’s topped off with pickles, crisp shredded lettuce, finely chopped onion and American cheese.",
@@ -289,7 +290,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1002,
                     name = "Cooper’s - Bashundhara",
                    // description = "Each Quarter Pounder with Cheese burger features a ¼ lb. of 100% fresh beef that’s hot, deliciously juicy and cooked when you order. It’s seasoned with just a pinch of salt and pepper, sizzled on a flat iron grill, then topped with slivered onions, tangy pickles and two slices of melty cheese on a sesame seed bun.",
@@ -303,7 +304,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1003,
                     name = "LunchBox - Bashundhara",
                   //  description = "Each Double Quarter Pounder with Cheese features two quarter pound 100% fresh beef burger patties that are hot, deliciously juicy and cooked when you order. McDonald’s beef patties are seasoned with just a pinch of salt and pepper, sizzled on a flat iron grill, then topped with slivered onions, tangy pickles and two slices of melty cheese on a sesame seed bun.",
@@ -317,7 +318,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1004,
                     name = "Bismillah Biriyani House - Bashundhara",
                    // description = "The Quarter Pounder with Cheese Deluxe is a fresh take on a Quarter Pounder classic burger. Crisp leaf lettuce and three Roma tomato slices top a ¼ lb. of 100% McDonald’s fresh beef that’s hot, deliciously juicy and cooked when you order. Seasoned with just a pinch of salt and pepper and sizzled on our flat iron grill. Layered with two slices of melty American cheese, creamy mayo, slivered onions and tangy pickles on a soft, fluffy sesame seed hamburger bun.",
@@ -331,7 +332,7 @@ object HomeRepository {
                     discountRate = 10,
                     isFavourite = false,
                 ),
-                MenuItem(
+                ResturantDishDetails(
                     id = 1005,
                     name = "Pizza Burg - Bashundhara",
                    // description = "A classic double burger from McDonald’s, the McDouble stacks two 100% pure beef patties seasoned with just a pinch of salt and pepper. It’s topped with tangy pickles, chopped onions, ketchup, mustard and a slice of melty American cheese.",

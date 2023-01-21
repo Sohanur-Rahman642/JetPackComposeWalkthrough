@@ -33,6 +33,8 @@ val FigPrimaryBlack = Color(0xFF282A33)
 val FigSecondaryBlack = Color(0xFF424242)
 val FigSecondaryBackground = Color(0xFFF6F6F6)
 val FigSecondaryBabyPink = Color(0xFFFFE5E5)
+val FigUltraLightBabyPink = Color(0xFFFEF7F6)
+
 
 
 

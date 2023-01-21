@@ -6,17 +6,13 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -24,24 +20,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.jetpackcomposewalkthrough.R
-import com.example.jetpackcomposewalkthrough.constants.Constants
 import com.example.jetpackcomposewalkthrough.data.SectionRepository
-import com.example.jetpackcomposewalkthrough.model.MenuItem
 import com.example.jetpackcomposewalkthrough.model.MenuSections
 import com.example.jetpackcomposewalkthrough.ui.components.*
 import com.example.jetpackcomposewalkthrough.ui.theme.FigCrimson
-import com.example.jetpackcomposewalkthrough.ui.theme.FigRed
 import com.example.jetpackcomposewalkthrough.ui.theme.JetPackComposeWalkthroughTheme
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 
@@ -54,6 +42,8 @@ fun DetailsScreen(
 ) {
 
     val data = SectionRepository.getMenuSections()
+    println("data $data")
+
 
     ////BottomSheet
     val coroutineScope = rememberCoroutineScope()
@@ -113,7 +103,6 @@ fun DetailsScreen(
             Column(
                 modifier = bottomSheetModifier.background(Color.White),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
             ) {
                 BottomSheetContent(data[0].menuItems[0])
                 Button(

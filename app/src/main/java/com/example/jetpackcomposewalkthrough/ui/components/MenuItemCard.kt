@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -25,18 +24,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import com.example.jetpackcomposewalkthrough.R
 import com.example.jetpackcomposewalkthrough.constants.Constants
-import com.example.jetpackcomposewalkthrough.model.MenuItem
+import com.example.jetpackcomposewalkthrough.model.ResturantDishDetails
 import com.example.jetpackcomposewalkthrough.ui.theme.*
-import com.google.accompanist.coil.rememberCoilPainter
-import kotlin.math.log
 
 
 @Composable
 fun MenuItemCard(
-    menuItem: MenuItem,
+    menuItem: ResturantDishDetails,
     onClick: () -> Unit,
     type: String
 ) {
@@ -262,7 +258,7 @@ fun MenuItemCard(
 private fun MenuItemCardPreview() {
     JetPackComposeWalkthroughTheme() {
         MenuItemCard(
-            menuItem = MenuItem(
+            menuItem = ResturantDishDetails(
                 id = 0,
                 name = "Burger Express",
                 //description = "",
