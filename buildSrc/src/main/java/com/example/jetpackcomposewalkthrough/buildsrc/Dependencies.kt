@@ -36,7 +36,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.1.1"
+            const val version = "1.2.0-rc02"
 
             const val foundation = "androidx.compose.foundation:foundation:$version"
             const val layout = "androidx.compose.foundation:foundation-layout:$version"

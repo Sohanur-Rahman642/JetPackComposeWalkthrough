@@ -1,10 +1,13 @@
 package com.example.jetpackcomposewalkthrough.ui.details
 
+import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,25 +34,54 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.jetpackcomposewalkthrough.R
 import com.example.jetpackcomposewalkthrough.constants.Constants
 import com.example.jetpackcomposewalkthrough.data.SectionRepository
+import com.example.jetpackcomposewalkthrough.model.MenuItem
 import com.example.jetpackcomposewalkthrough.model.MenuSections
-import com.example.jetpackcomposewalkthrough.ui.components.CustomTopAppBar
-import com.example.jetpackcomposewalkthrough.ui.components.MenuItemCard
-import com.example.jetpackcomposewalkthrough.ui.components.PainterIcon
+import com.example.jetpackcomposewalkthrough.ui.components.*
 import com.example.jetpackcomposewalkthrough.ui.theme.FigCrimson
 import com.example.jetpackcomposewalkthrough.ui.theme.FigRed
 import com.example.jetpackcomposewalkthrough.ui.theme.JetPackComposeWalkthroughTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalFoundationApi::class)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun DetailsScreen(
     itemId: Long,
     onBackClick: () -> Unit
 ) {
-    val data = SectionRepository.getMenuSections()
-    val scope = rememberCoroutineScope()
 
+    val data = SectionRepository.getMenuSections()
+
+    ////BottomSheet
+    val coroutineScope = rememberCoroutineScope()
+    val modalSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded },
+        skipHalfExpanded = true
+    )
+
+
+    var isSheetFullScreen by remember { mutableStateOf(false) }
+    val roundedCornerRadius = if (isSheetFullScreen) 0.dp else 12.dp
+    val bottomSheetModifier = if (isSheetFullScreen)
+        Modifier
+            .fillMaxSize()
+    else
+        Modifier.fillMaxWidth()
+
+    BackHandler(modalSheetState.isVisible) {
+        coroutineScope.launch { modalSheetState.hide() }
+    }
+
+
+    //val user: MenuItem? = data.find { it.menuItems == id }
+
+  //  val scope = rememberCoroutineScope()
+
+    val contentListState = rememberLazyListState()
     val sectionsListState = rememberLazyListState()
     val itemsListState = rememberLazyListState()
     var selectedSectionIndex by remember { mutableStateOf(0) }
@@ -61,24 +93,51 @@ fun DetailsScreen(
     }
 
     val onPostScroll : () -> Unit = {
-        val currentSectionIndex = itemsListState.firstVisibleItemIndex
+        var currentSectionIndex = itemsListState.firstVisibleItemIndex
         println("currentSectionIndex12345 $currentSectionIndex")
         println("selectedSectionIndex12345 $selectedSectionIndex")
         if (selectedSectionIndex != currentSectionIndex) {
             selectedSectionIndex = currentSectionIndex
 
-            scope.launch {
+            coroutineScope.launch {
                 sectionsListState.animateScrollToItem(currentSectionIndex)
             }
         }
     }
 
-    Box(){
 
-        LazyColumn(
-            state = itemsListState,
+    ModalBottomSheetLayout(
+        sheetShape = RoundedCornerShape(topStart = roundedCornerRadius, topEnd = roundedCornerRadius),
+        sheetState = modalSheetState,
+        sheetContent = {
+            Column(
+                modifier = bottomSheetModifier.background(Color.White),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                BottomSheetContent(data[0].menuItems[0])
+                Button(
+                    onClick = {
+                        isSheetFullScreen = !isSheetFullScreen
+                    }
+                ) {
+                    Text(text = "Toggle Sheet Fullscreen")
+                }
+
+                Button(
+                    onClick = {
+                        coroutineScope.launch { modalSheetState.hide() }
+                    }
+                ) {
+                    Text(text = "Hide Sheet")
+                }
+            }
+        }
+    ){
+        Box(
             modifier = Modifier
-                .padding()
+                .fillMaxSize()
+                .background(Color.White)
                 .nestedScroll(object : NestedScrollConnection {
                     override fun onPostScroll(
                         consumed: Offset,
@@ -89,93 +148,136 @@ fun DetailsScreen(
                         return super.onPostScroll(consumed, available, source)
                     }
                 })
-        ) {
+        ){
 
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillParentMaxWidth()
-
-                ) {
-                    Image(
-                        //painterResource(menuItem.image.removePrefix("drawable://").toInt()),
-                        painterResource(R.drawable.burger_xpress_cover),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .height(250.dp)
-                            .fillMaxWidth()
-                    )
-
-                }
-            }
-
-            item {
-                ConstraintLayout(
-                    modifier = Modifier
-                        .height(100.dp)
-                        .background(Color.White)
-                ) {
-
-                }
-            }
+            when ( showWhiteAppBar ){
+                true -> {
+                    Column() {
+                        MenuSectionsView(
+                            selectedIndex = selectedSectionIndex,
+                            menuSections = data,
+                            sectionsListState = sectionsListState,
+                            onClick = { sectionIndex ->
+                                println("54321 firstVisibleItemIndex ${itemsListState.firstVisibleItemIndex}")
+                                println("54321 selectedSectionIndex $selectedSectionIndex")
+                                println("54321 sectionIndex $sectionIndex")
 
 
+                                selectedSectionIndex = sectionIndex
 
-            stickyHeader {
+                                println("54321 selectedSectionIndex $selectedSectionIndex")
+                                println("54321 ......................................")
 
-                MenuSectionsView(
-                    selectedIndex = selectedSectionIndex,
-                    menuSections = data,
-                    sectionsListState = sectionsListState,
-                    onClick = { sectionIndex ->
-                        println("sectionIndex $sectionIndex")
-                        selectedSectionIndex = sectionIndex
+                                coroutineScope.launch {
+                                    sectionsListState.animateScrollToItem(sectionIndex)
+                                    itemsListState.animateScrollToItem(sectionIndex)
+                                }
+                            },
+                            showWhiteAppBar = true
+                        )
 
+                        Divider()
 
-                        scope.launch {
-                            sectionsListState.animateScrollToItem(sectionIndex)
-                            itemsListState.animateScrollToItem(sectionIndex)
+                        LazyColumn(state = itemsListState,){
+                            items(data){ section ->
+                                Text(
+                                    modifier = Modifier.padding(16.dp),
+                                    text = section.title,
+                                    style = MaterialTheme.typography.subtitle1,
+                                    color = FigCrimson
+                                )
+                                MenuItemView(
+                                    section = section,
+                                    coroutineScope = coroutineScope,
+                                    modalSheetState = modalSheetState,
+                                )
+                            }
                         }
-                    },
-                    showWhiteAppBar = showWhiteAppBar
-                )
+                    }
 
-                Divider()
-            }
+                }
+                else -> {
+                    LazyColumn(
+                        state = itemsListState,
+                        modifier = Modifier
 
-//            item {
-//                Spacer(modifier = Modifier.height(60.dp))
-//            }
+                    ) {
 
-            data.forEach { section ->
+                        item {
+                            Image(
+                                //painterResource(menuItem.image.removePrefix("drawable://").toInt()),
+                                painterResource(R.drawable.burger_xpress_cover),
+                                contentDescription = "",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .height(250.dp)
+                                    .fillMaxWidth()
+                            )
+                        }
+
                 item {
-                    Text(
-                        modifier = Modifier.padding(10.dp),
-                        text = section.title,
-                        style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
-                        color = FigCrimson
-                    )
-                    MenuItemView(section)
+                    ConstraintLayout(
+                        modifier = Modifier
+                            .height(100.dp)
+                            .background(Color.White)
+                    ) {
+
+                    }
+                }
+
+                        stickyHeader {
+
+                            MenuSectionsView(
+                                selectedIndex = selectedSectionIndex,
+                                menuSections = data,
+                                sectionsListState = sectionsListState,
+                                onClick = { sectionIndex ->
+                                    println("54321 firstVisibleItemIndex ${itemsListState.firstVisibleItemIndex}")
+                                    println("54321 selectedSectionIndex $selectedSectionIndex")
+                                    println("54321 sectionIndex $sectionIndex")
+
+
+                                    selectedSectionIndex = sectionIndex
+
+                                    println("54321 selectedSectionIndex $selectedSectionIndex")
+                                    println("54321 ......................................")
+
+                                    coroutineScope.launch {
+                                        sectionsListState.animateScrollToItem(sectionIndex)
+                                        itemsListState.animateScrollToItem(sectionIndex)
+                                    }
+                                },
+                                showWhiteAppBar = false
+                            )
+
+
+                        }
+
+                        item {
+                            Divider()
+                        }
+
+
+                        items(data){ section ->
+                            Text(
+                                modifier = Modifier.padding(16.dp),
+                                text = section.title,
+                                style = MaterialTheme.typography.subtitle1,
+                                color = FigCrimson
+                            )
+                            MenuItemView(
+                                section = section,
+                                coroutineScope = coroutineScope,
+                                modalSheetState = modalSheetState,
+                            )
+                        }
+                    }
                 }
             }
-        }
-
-        CustomTopAppBar(itemsListState, onBackClick = onBackClick, showWhiteAppBar = showWhiteAppBar)
-    }
-
-}
-
-
-
-@Composable
-fun MenuItemView(section: MenuSections) {
-    Column() {
-        section.menuItems.forEach { menuItem ->
-            MenuItemCard(menuItem = menuItem, onClick = { /*TODO*/ }, type = Constants.TYPE_VERTICAL)
-            Spacer(modifier = Modifier.height(10.dp))
+                CustomTopAppBar(itemsListState, onBackClick = onBackClick, showWhiteAppBar = showWhiteAppBar)
         }
     }
+
 }
 
 
@@ -188,24 +290,78 @@ fun MenuSectionsView(
     showWhiteAppBar: Boolean
 ) {
     LazyRow(
-        modifier = when( showWhiteAppBar ){
-            true -> {
-                Modifier.padding(top = 55.dp).background(Color.White)
-            }
-            else -> Modifier.padding().background(Color.White)
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White),
 
-        },
         state = sectionsListState
     ) {
+        item {
+            Spacer(modifier = Modifier.width(16.dp))
+        }
         menuSections.forEachIndexed { i, section ->
             item {
                 SectionTextView(
-                    modifier = Modifier
-                        .padding(horizontal = 10.dp)
-                        .clickable { onClick(i) },
+                    modifier = when ( showWhiteAppBar ) {
+                        true -> {
+                            Modifier
+                                .padding(start = 15.dp, top = 65.dp)
+                                .clickable { onClick(i) }
+                        }
+                        else -> {
+                            Modifier
+                                .padding(start = 15.dp, top = 10.dp)
+                                .clickable { onClick(i) }
+                        }
+                    },
                     text = section.title,
                     isSelected = selectedIndex == i
                 )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun MenuItemView(
+    section: MenuSections,
+    coroutineScope: CoroutineScope,
+    modalSheetState: ModalBottomSheetState
+) {
+    Column() {
+        when(section.title){
+            "Popular" -> {
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)){
+                    item { Spacer(modifier = Modifier.width(10.dp)) }
+                    items(section.menuItems) { menuItem ->
+                        RestaurantMenuItemCard(
+                            menuItem = menuItem,
+                            onClick = {
+                                coroutineScope.launch {
+                                    if (modalSheetState.isVisible)
+                                        modalSheetState.hide()
+                                    else
+                                        modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
+                                }
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                }
+            }
+            else -> {
+                section.menuItems.forEach { menuItem ->
+                    ResVerticalMenuItemCard(menuItem = menuItem, onClick = {
+                        coroutineScope.launch {
+                            if (modalSheetState.isVisible)
+                                modalSheetState.hide()
+                            else
+                                modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
+                        }
+                    })
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
             }
         }
     }
@@ -227,7 +383,7 @@ fun SectionTextView(
                 textWidth = with(density) { it.size.width.toDp() } //update text width value according to the content size
             },
             text = text,
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+            style = MaterialTheme.typography.subtitle1,
             color = if (isSelected) FigCrimson else Color.DarkGray
         )
 
@@ -241,7 +397,7 @@ fun SectionTextView(
                 Modifier
                     .width(textWidth)
                     .padding(top = 15.dp)
-                    .height(3.dp)
+                    .height(5.dp)
                     .background(FigCrimson)
             ) {}
         }

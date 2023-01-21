@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -23,8 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.example.jetpackcomposewalkthrough.R
 import com.example.jetpackcomposewalkthrough.ui.theme.FigRed
 import com.example.jetpackcomposewalkthrough.ui.theme.JetPackComposeWalkthroughTheme
-import androidx.compose.runtime.livedata.observeAsState
-import com.example.jetpackcomposewalkthrough.ui.theme.FigBG1
+
 
 @Composable
 fun CustomTopAppBar(
@@ -32,12 +32,6 @@ fun CustomTopAppBar(
     showWhiteAppBar: Boolean,
     onBackClick: () -> Unit
 ) {
-
-
-    println("firstVisibleItemIndex123 ${lazyListState.firstVisibleItemIndex}")
-
-    println("showWhiteAppBar123 $showWhiteAppBar")
-
 
     Box(
         modifier = Modifier
@@ -86,21 +80,26 @@ fun CustomTopAppBar(
             exit = fadeOut(animationSpec = tween(300))
         ) {
             Box(modifier = Modifier.fillMaxSize()){
-                Surface(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(20.dp)
-                        .clip(CircleShape)
-                        .background(Color.White),
-                ){
-                    com.example.jetpackcomposewalkthrough.ui.components.Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.arrowback),
+
+                IconButton(onClick = onBackClick ) {
+                    Surface(
                         modifier = Modifier
-                            .size(25.dp)
-                            .padding(5.dp),
-                        tint = FigRed
-                    )
+                            .align(Alignment.TopStart)
+                            .padding(20.dp)
+                            .clip(CircleShape)
+                            .background(Color.White)
+
+                    ){
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.arrowback),
+                            modifier = Modifier
+                                .size(25.dp)
+                                .padding(5.dp),
+                            tint = FigRed
+                        )
+                    }
                 }
+
 
                 Row(
                     modifier = Modifier

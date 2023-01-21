@@ -28,6 +28,15 @@ val FigGradientThree = Color(0xFFFEE8FD)
 val FigNavUnselect = Color(0xFF282A33)
 val FigNavSelect = Color(0xFFFE5220)
 val FigBG1 = Color(0xFFF6FAFD)
+val FigMatLightGreen = Color(0xFFCFFDE1)
+val FigPrimaryBlack = Color(0xFF282A33)
+val FigSecondaryBlack = Color(0xFF424242)
+val FigSecondaryBackground = Color(0xFFF6F6F6)
+val FigSecondaryBabyPink = Color(0xFFFFE5E5)
+
+
+
+
 
 
 
