@@ -1,9 +1,8 @@
 package com.example.jetpackcomposewalkthrough.ui.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -21,10 +20,12 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeScreen(
-    onItemClick: (Long) -> Unit
+    onItemClick: (Long) -> Unit,
+    lazyListState: LazyListState
 ) {
    Scaffold(
        topBar = {   TopLocationBar() },
@@ -32,7 +33,8 @@ fun HomeScreen(
        val data = HomeRepository.getHomeData()
 
        LazyColumn(
-           modifier = Modifier.fillMaxSize()
+           modifier = Modifier.fillMaxSize(),
+           state = lazyListState
        ) {
            ///.........Image Slider........../////
            item { Spacer(modifier = Modifier.height(16.dp)) }
@@ -222,6 +224,7 @@ private fun HomeScreenPreview() {
     JetPackComposeWalkthroughTheme {
         HomeScreen(
             onItemClick = {},
+            rememberLazyListState()
         )
     }
 }

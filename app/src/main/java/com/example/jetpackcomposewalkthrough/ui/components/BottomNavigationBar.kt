@@ -33,7 +33,7 @@ fun BottomNavigationBar(navController: NavController) {
     )
     BottomNavigation(
         backgroundColor = Color.White,
-        contentColor = FigNavUnselect
+        contentColor = FigPrimaryBlack
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route

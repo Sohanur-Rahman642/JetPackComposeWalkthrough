@@ -38,11 +38,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun DetailsScreen(
     itemId: Long,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    lazyListState: LazyListState
 ) {
 
     val data = SectionRepository.getMenuSections()
-    println("data $data")
+    val menuItem = data.flatMap { it.menuItems }.find { it.id == 1017L }
 
 
     ////BottomSheet
@@ -66,26 +67,17 @@ fun DetailsScreen(
         coroutineScope.launch { modalSheetState.hide() }
     }
 
-
-    //val user: MenuItem? = data.find { it.menuItems == id }
-
-  //  val scope = rememberCoroutineScope()
-
-    val contentListState = rememberLazyListState()
     val sectionsListState = rememberLazyListState()
-    val itemsListState = rememberLazyListState()
     var selectedSectionIndex by remember { mutableStateOf(0) }
 
     val showWhiteAppBar by remember {
         derivedStateOf {
-            itemsListState.firstVisibleItemIndex > 0
+            lazyListState.firstVisibleItemIndex > 0
         }
     }
 
     val onPostScroll : () -> Unit = {
-        var currentSectionIndex = itemsListState.firstVisibleItemIndex
-        println("currentSectionIndex12345 $currentSectionIndex")
-        println("selectedSectionIndex12345 $selectedSectionIndex")
+        val currentSectionIndex = lazyListState.firstVisibleItemIndex
         if (selectedSectionIndex != currentSectionIndex) {
             selectedSectionIndex = currentSectionIndex
 
@@ -104,7 +96,7 @@ fun DetailsScreen(
                 modifier = bottomSheetModifier.background(Color.White),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                BottomSheetContent(data[0].menuItems[0])
+                menuItem?.let { BottomSheetContent(it) }
                 Button(
                     onClick = {
                         isSheetFullScreen = !isSheetFullScreen
@@ -147,19 +139,11 @@ fun DetailsScreen(
                             menuSections = data,
                             sectionsListState = sectionsListState,
                             onClick = { sectionIndex ->
-                                println("54321 firstVisibleItemIndex ${itemsListState.firstVisibleItemIndex}")
-                                println("54321 selectedSectionIndex $selectedSectionIndex")
-                                println("54321 sectionIndex $sectionIndex")
-
-
                                 selectedSectionIndex = sectionIndex
-
-                                println("54321 selectedSectionIndex $selectedSectionIndex")
-                                println("54321 ......................................")
 
                                 coroutineScope.launch {
                                     sectionsListState.animateScrollToItem(sectionIndex)
-                                    itemsListState.animateScrollToItem(sectionIndex)
+                                    lazyListState.animateScrollToItem(sectionIndex)
                                 }
                             },
                             showWhiteAppBar = true
@@ -167,8 +151,8 @@ fun DetailsScreen(
 
                         Divider()
 
-                        LazyColumn(state = itemsListState,){
-                            items(data){ section ->
+                        LazyColumn(state = lazyListState,) {
+                            items(data) { section ->
                                 Text(
                                     modifier = Modifier.padding(16.dp),
                                     text = section.title,
@@ -187,7 +171,7 @@ fun DetailsScreen(
                 }
                 else -> {
                     LazyColumn(
-                        state = itemsListState,
+                        state = lazyListState,
                         modifier = Modifier
 
                     ) {
@@ -204,15 +188,15 @@ fun DetailsScreen(
                             )
                         }
 
-                item {
-                    ConstraintLayout(
-                        modifier = Modifier
-                            .height(100.dp)
-                            .background(Color.White)
-                    ) {
+                        item {
+                            ConstraintLayout(
+                                modifier = Modifier
+                                    .height(100.dp)
+                                    .background(Color.White)
+                            ) {
 
-                    }
-                }
+                            }
+                        }
 
                         stickyHeader {
 
@@ -221,19 +205,11 @@ fun DetailsScreen(
                                 menuSections = data,
                                 sectionsListState = sectionsListState,
                                 onClick = { sectionIndex ->
-                                    println("54321 firstVisibleItemIndex ${itemsListState.firstVisibleItemIndex}")
-                                    println("54321 selectedSectionIndex $selectedSectionIndex")
-                                    println("54321 sectionIndex $sectionIndex")
-
-
                                     selectedSectionIndex = sectionIndex
-
-                                    println("54321 selectedSectionIndex $selectedSectionIndex")
-                                    println("54321 ......................................")
 
                                     coroutineScope.launch {
                                         sectionsListState.animateScrollToItem(sectionIndex)
-                                        itemsListState.animateScrollToItem(sectionIndex)
+                                        lazyListState.animateScrollToItem(sectionIndex)
                                     }
                                 },
                                 showWhiteAppBar = false
@@ -247,7 +223,7 @@ fun DetailsScreen(
                         }
 
 
-                        items(data){ section ->
+                        items(data) { section ->
                             Text(
                                 modifier = Modifier.padding(16.dp),
                                 text = section.title,
@@ -263,7 +239,11 @@ fun DetailsScreen(
                     }
                 }
             }
-                CustomTopAppBar(itemsListState, onBackClick = onBackClick, showWhiteAppBar = showWhiteAppBar)
+            CustomTopAppBar(
+                lazyListState,
+                onBackClick = onBackClick,
+                showWhiteAppBar = showWhiteAppBar
+            )
         }
     }
 
@@ -401,7 +381,8 @@ private fun CategoryScreenPreview() {
     JetPackComposeWalkthroughTheme {
         DetailsScreen(
             itemId = 4004,
-            onBackClick = {}
+            onBackClick = {},
+            rememberLazyListState()
         )
     }
 }

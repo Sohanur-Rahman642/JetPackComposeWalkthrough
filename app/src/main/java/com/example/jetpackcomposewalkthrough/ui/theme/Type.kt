@@ -19,32 +19,32 @@ val Inter = FontFamily(
 val typography = Typography(
     h1 = TextStyle(
         fontFamily = Inter,
-        fontSize = 96.sp,
+        fontSize = 60.sp,
         fontWeight = FontWeight.Bold,
     ),
     h2 = TextStyle(
         fontFamily = Inter,
-        fontSize = 60.sp,
+        fontSize = 48.sp,
         fontWeight = FontWeight.Bold,
     ),
     h3 = TextStyle(
         fontFamily = Inter,
-        fontSize = 48.sp,
+        fontSize = 28.sp,
         fontWeight = FontWeight.Bold,
     ),
     h4 = TextStyle(
         fontFamily = Inter,
-        fontSize = 28.sp,
+        fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
     ),
     h5 = TextStyle(
         fontFamily = Inter,
-        fontSize = 24.sp,
+        fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
     ),
     h6 = TextStyle(
         fontFamily = Inter,
-        fontSize = 16.sp,
+        fontSize = 18.sp,
         fontWeight = FontWeight.Bold,
     ),
     subtitle1 = TextStyle(
