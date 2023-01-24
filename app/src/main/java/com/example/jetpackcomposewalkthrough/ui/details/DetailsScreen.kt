@@ -40,10 +40,10 @@ import com.example.jetpackcomposewalkthrough.ui.theme.FigCrimson
 import com.example.jetpackcomposewalkthrough.ui.theme.JetPackComposeWalkthroughTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DetailsScreen(
@@ -76,6 +76,14 @@ fun DetailsScreen(
     val menuItem = data.flatMap { it.menuItems }.find { it.id == 1017L }
 
 
+    val appBarHeight = 350.dp
+    var height by remember {
+        mutableStateOf(0f)
+    }
+    val density = LocalDensity.current
+    val animatedHeight by animateDpAsState(targetValue = with(density){height.toDp()})
+
+
 
     ModalBottomSheetLayout(
         sheetShape = RoundedCornerShape(topStart = roundedCornerRadius, topEnd = roundedCornerRadius),
@@ -104,16 +112,46 @@ fun DetailsScreen(
             }
         }
     ){
-        LazyScrollView(
-            lazyListState = lazyListState
-        )
+        Column(modifier = Modifier.fillMaxSize()){
+            Column(modifier = Modifier
+                .background(Color.White)
+                .height(height = animatedHeight)
+            ){
+                Image(
+                    //painterResource(menuItem.image.removePrefix("drawable://").toInt()),
+                    painterResource(R.drawable.burger_xpress_cover),
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .height(250.dp)
+                )
+
+                ConstraintLayout(
+                    modifier = Modifier
+                        .height(100.dp)
+                        .background(Color.White)
+                ) {
+
+                }
+            }
+            LazyScrollView(onOffsetChanged = {
+                Log.d("OFFSET","$it")
+                height = it
+            },
+                appBarHeight = appBarHeight,
+                lazyListState = lazyListState
+            )
+        }
     }
 }
 
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun LazyScrollView(lazyListState: LazyListState){
+fun LazyScrollView(
+    onOffsetChanged: (Float) -> Unit,
+    appBarHeight: Dp,
+    lazyListState: LazyListState){
 
     val data = SectionRepository.getMenuSections()
     val coroutineScope = rememberCoroutineScope()
@@ -125,95 +163,87 @@ fun LazyScrollView(lazyListState: LazyListState){
 
     val sectionsListState = rememberLazyListState()
     var selectedSectionIndex by remember { mutableStateOf(0) }
-    var scrolledY = 0f
-    var previousOffset = 0
 
-    val toolbarHeight = 350.dp
-    val toolbarHeightPx = with(LocalDensity.current) { toolbarHeight.roundToPx().toFloat() }
-    val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
 
-    val nestedScrollConnection = remember {
-        object : NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+    val pixelValue = with(LocalDensity.current){appBarHeight.toPx()}
+    val nestedScrollState = rememberNestedScrollConnection(onOffsetChanged = onOffsetChanged, appBarHeight = pixelValue)
+    LaunchedEffect(key1 = Unit, block = {
+        onOffsetChanged(pixelValue)
+    })
 
-                val delta = available.y
-                val newOffset = toolbarOffsetHeightPx.value + delta
-                toolbarOffsetHeightPx.value = newOffset.coerceIn(-toolbarHeightPx, 0f)
-                return Offset.Zero
-            }
-        }
-    }
 
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
-        .nestedScroll(nestedScrollConnection)
-    )
-    {
+        .nestedScroll(nestedScrollState)
+    ) {
+           Column() {
+               MenuSectionsView(
+                   selectedIndex = selectedSectionIndex,
+                   menuSections = data,
+                   sectionsListState = sectionsListState,
+                   onClick = { sectionIndex ->
+                       selectedSectionIndex = sectionIndex
 
-        Column() {
-            TopAppBar(
-                modifier = Modifier
-                    .height(toolbarHeight)
-                    .offset { IntOffset(x = 0, y = toolbarOffsetHeightPx.value.roundToInt()) }
+                       coroutineScope.launch {
+                           sectionsListState.animateScrollToItem(sectionIndex)
+                           lazyListState.animateScrollToItem(sectionIndex)
+                       }
+                   },
+                   showWhiteAppBar = false
+               )
 
-            ){
-                Image(
-                    //painterResource(menuItem.image.removePrefix("drawable://").toInt()),
-                    painterResource(R.drawable.burger_xpress_cover),
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .height(250.dp)
-                        .fillMaxWidth()
-                )
-                ConstraintLayout(
-                    modifier = Modifier
-                        .height(100.dp)
-                        .background(Color.White)
-                ) {
+               Divider(
+                   modifier = Modifier.shadow(elevation = 2.dp)
+               )
 
-                }
-            }
 
-            MenuSectionsView(
-                selectedIndex = selectedSectionIndex,
-                menuSections = data,
-                sectionsListState = sectionsListState,
-                onClick = { sectionIndex ->
-                    selectedSectionIndex = sectionIndex
+               MenuItemsView(
+                   data = data,
+                   lazyListState = lazyListState,
+                   coroutineScope = coroutineScope,
+                   modalSheetState = modalSheetState,
+                   onPostScroll = {
+                       val currentSectionIndex = lazyListState.firstVisibleItemIndex
+                       if (selectedSectionIndex != currentSectionIndex) {
+                           selectedSectionIndex = currentSectionIndex
 
-                    coroutineScope.launch {
-                        sectionsListState.animateScrollToItem(sectionIndex)
-                        lazyListState.animateScrollToItem(sectionIndex)
-                    }
-                },
-                showWhiteAppBar = false
-            )
-
-            Divider(
-                modifier = Modifier.shadow(elevation = 2.dp)
-            )
-
-            MenuItemsView(
-                data = data,
-                lazyListState = lazyListState,
-                coroutineScope = coroutineScope,
-                modalSheetState = modalSheetState,
-                onPostScroll = {
-                    val currentSectionIndex = lazyListState.firstVisibleItemIndex
-                    if (selectedSectionIndex != currentSectionIndex) {
-                        selectedSectionIndex = currentSectionIndex
-
-                        coroutineScope.launch {
-                            sectionsListState.animateScrollToItem(currentSectionIndex)
-                        }
-                    }
-                }
-            )
-        }
+                           coroutineScope.launch {
+                               sectionsListState.animateScrollToItem(currentSectionIndex)
+                           }
+                       }
+                   }
+               )
+           }
     }
 
+}
+
+
+@Composable
+fun rememberNestedScrollConnection(onOffsetChanged:(Float)->Unit,appBarHeight:Float) = remember {
+    var currentHeight = appBarHeight
+    object : NestedScrollConnection {
+        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+            Log.d("AVAILABLE","$available")
+            currentHeight = (currentHeight+available.y).coerceIn(minimumValue = 0f, maximumValue = appBarHeight)
+            return if(abs(currentHeight) == appBarHeight || abs(currentHeight) == 0f){
+                super.onPreScroll(available, source)
+            }else{
+                onOffsetChanged(currentHeight)
+                available
+            }
+        }
+
+        override suspend fun onPreFling(available: Velocity): Velocity {
+            if(available.y<0){
+                onOffsetChanged(0f)
+            }else{
+                onOffsetChanged(appBarHeight)
+            }
+            return super.onPreFling(available)
+        }
+    }
 }
 
 
