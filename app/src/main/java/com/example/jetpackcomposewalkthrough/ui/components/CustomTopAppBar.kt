@@ -1,9 +1,8 @@
 package com.example.jetpackcomposewalkthrough.ui.components
 
-import androidx.compose.animation.AnimatedVisibility
+import android.view.animation.BounceInterpolator
+import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -42,7 +41,19 @@ fun CustomTopAppBar(
 
     ) {
         AnimatedVisibility(
-            visible = showWhiteAppBar
+            visible = showWhiteAppBar,
+
+            enter = fadeIn(tween(100)) + expandVertically(
+                animationSpec = tween(
+                    100
+                )
+            ),
+            exit = fadeOut(tween(100)) + shrinkVertically(
+                animationSpec = tween(
+                    100
+                )
+            )
+
         ) {
             TopAppBar(
                 title = {
@@ -77,8 +88,8 @@ fun CustomTopAppBar(
 
         AnimatedVisibility(
             visible = !showWhiteAppBar,
-            enter = fadeIn(animationSpec = tween(300)),
-            exit = fadeOut(animationSpec = tween(300))
+            enter = fadeIn(animationSpec = tween(100)),
+            exit = fadeOut(animationSpec = tween(100))
         ) {
             Box(modifier = Modifier.fillMaxSize()){
 
@@ -112,7 +123,7 @@ fun CustomTopAppBar(
                             .clip(CircleShape)
                             .background(Color.White),
                     ){
-                        com.example.jetpackcomposewalkthrough.ui.components.Icon(
+                        Icon(
                             imageVector = ImageVector.vectorResource(id = R.drawable.shareicon),
                             modifier = Modifier
                                 .size(25.dp)

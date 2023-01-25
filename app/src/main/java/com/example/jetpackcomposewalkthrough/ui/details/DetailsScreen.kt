@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -26,6 +27,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -36,8 +40,7 @@ import com.example.jetpackcomposewalkthrough.R
 import com.example.jetpackcomposewalkthrough.data.SectionRepository
 import com.example.jetpackcomposewalkthrough.model.MenuSections
 import com.example.jetpackcomposewalkthrough.ui.components.*
-import com.example.jetpackcomposewalkthrough.ui.theme.FigCrimson
-import com.example.jetpackcomposewalkthrough.ui.theme.JetPackComposeWalkthroughTheme
+import com.example.jetpackcomposewalkthrough.ui.theme.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -75,7 +78,7 @@ fun DetailsScreen(
     val menuItem = data.flatMap { it.menuItems }.find { it.id == 1017L }
 
 
-    val appBarHeight = 350.dp
+    val appBarHeight = 400.dp
     var height by remember {
         mutableStateOf(0f)
     }
@@ -94,7 +97,7 @@ fun DetailsScreen(
     }
 
 
-
+    var textWidth by remember { mutableStateOf(0.dp) }
 
 
     ModalBottomSheetLayout(
@@ -127,8 +130,10 @@ fun DetailsScreen(
         Box(modifier = Modifier.fillMaxSize()){
             Column(modifier = Modifier.fillMaxWidth()){
                 Column(modifier = Modifier
-                    .background(Color.White)
+                    .fillMaxWidth()
                     .height(height = animatedHeight)
+                    .background(Color.White)
+
                 ){
                     Image(
                         painterResource(R.drawable.burger_xpress_cover),
@@ -139,11 +144,138 @@ fun DetailsScreen(
                             .fillMaxWidth()
                     )
 
-                    ConstraintLayout(
+                    Column(
                         modifier = Modifier
-                            .height(100.dp)
+                            .height(150.dp)
+                            .fillMaxWidth()
                             .background(Color.White)
                     ) {
+
+                        Row(
+                            modifier  = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(
+                                modifier = Modifier.width(350.dp)
+                            ) {
+                                Text(
+                                    modifier = Modifier
+                                        .padding(start = 15.dp, end = 10.dp, top=15.dp)
+                                        ,
+                                    text = "Burger Xpress Banani",
+                                    style = MaterialTheme.typography.h6,
+                                    color = Color.Black
+                                )
+
+                                Text(
+                                    modifier = Modifier
+                                        .padding(start = 15.dp, end = 10.dp, top= 5.dp)
+                                        ,
+                                    text = "House-33, 17, Block-E, Road Abdul Alim Nakib Road, Dhaka 1213",
+                                    maxLines = 2,
+                                    style = MaterialTheme.typography.body1,
+                                    color = FigPrimaryBodyColor
+                                )
+
+                                Row(
+                                    modifier = Modifier
+                                        .padding(start = 15.dp, end = 10.dp, top= 5.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceAround
+                                ){
+                                    Surface() {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ){
+                                            Icon(
+                                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_add_circle_24),
+                                                modifier = Modifier
+                                                    .size(24.dp)
+                                                    .padding(5.dp),
+                                                tint = FigCrimson
+                                            )
+                                            Text(
+                                                modifier = Modifier.padding(start = 2.dp),
+                                                text = "Delivery 40min",
+                                                maxLines = 2,
+                                                style = MaterialTheme.typography.body2,
+                                                color = FigPrimaryBlack
+                                            )
+                                        }
+
+                                    }
+
+                                    Surface() {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Icon(
+                                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_add_circle_24),
+                                                modifier = Modifier
+                                                    .size(24.dp)
+                                                    .padding(5.dp),
+                                                tint = FigCrimson
+                                            )
+                                            Text(
+                                                modifier = Modifier.padding(start = 2.dp),
+                                                text = "1.4km away",
+                                                maxLines = 2,
+                                                style = MaterialTheme.typography.body2,
+                                                color = FigPrimaryBlack
+                                            )
+                                        }
+                                    }
+                                }
+
+
+                                Row(){
+                                    Surface() {
+
+                                    }
+
+                                    Surface() {
+
+                                    }
+                                }
+                            }
+
+                            Column(
+                                modifier = Modifier.padding(end = 10.dp, top = 15.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Surface(
+                                    modifier = Modifier,
+                                    shape = RoundedCornerShape(8.dp)
+                                ) {
+                                    Image(
+                                        painterResource(R.drawable.burger_xpress_cover),
+                                        contentDescription = "",
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .height(70.dp)
+                                            .width(80.dp)
+                                    )
+                                }
+
+                                Surface(
+                                    modifier = Modifier
+                                        .padding(top = 10.dp),
+
+                                    shape =  MaterialTheme.shapes.medium,
+                                    color = FigMatLightGreen
+                                ){
+                                    Text(
+                                        text = "More info",
+                                        textAlign = TextAlign.Center,
+                                        style = MaterialTheme.typography.button,
+                                        maxLines = 1,
+                                        modifier = Modifier.padding(5.dp),
+                                        color = FigGreen
+                                    )
+                                }
+                            }
+                        }
+
 
                     }
                 }
@@ -209,7 +341,7 @@ fun LazyScrollView(
                        }
 
                        if( sectionIndex > 0) {
-                           onOffsetChanged(0f)
+                           onOffsetChanged(120f)
                        }else{
                            onOffsetChanged(918f)
                        }
@@ -290,8 +422,8 @@ fun MenuSectionsView(
         menuSections.forEachIndexed { i, section ->
             item {
                 SectionTextView(
-                    modifier =  Modifier
-                        .padding(start = 15.dp, top = 65.dp)
+                    modifier = Modifier
+                        .padding(start = 15.dp, top = 15.dp)
                         .clickable { onClick(i) },
 
                     text = section.title,

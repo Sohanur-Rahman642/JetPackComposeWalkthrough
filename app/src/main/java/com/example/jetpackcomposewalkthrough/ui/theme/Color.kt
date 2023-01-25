@@ -37,6 +37,7 @@ val FigPrimaryOptionColor = Color(0xFF585858)
 val FigSecondaryContentColor = Color(0xFF818181)
 val FigPrimarySurfaceColor = Color(0xFFFFDFDF)
 val FigSecondarySurfaceColor = Color(0xFFFFFAFA)
+val FigPrimaryBodyColor = Color(0xFF414141)
 
 
 
