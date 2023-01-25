@@ -49,7 +49,6 @@ import kotlin.math.roundToInt
 fun DetailsScreen(
     itemId: Long,
     onBackClick: () -> Unit,
-    lazyListState: LazyListState
 ) {
 
     ////Modal BottomSheet
@@ -80,8 +79,21 @@ fun DetailsScreen(
     var height by remember {
         mutableStateOf(0f)
     }
+
+    println("height77 $height")
+
     val density = LocalDensity.current
     val animatedHeight by animateDpAsState(targetValue = with(density){height.toDp()})
+
+    val lazyListState = rememberLazyListState()
+
+    val showWhiteAppBar by remember {
+        derivedStateOf {
+            height < 10f || lazyListState.firstVisibleItemIndex > 0
+        }
+    }
+
+
 
 
 
@@ -112,36 +124,41 @@ fun DetailsScreen(
             }
         }
     ){
-        Column(modifier = Modifier.fillMaxSize()){
-            Column(modifier = Modifier
-                .background(Color.White)
-                .height(height = animatedHeight)
-            ){
-                Image(
-                    //painterResource(menuItem.image.removePrefix("drawable://").toInt()),
-                    painterResource(R.drawable.burger_xpress_cover),
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .height(250.dp)
-                )
+        Box(modifier = Modifier.fillMaxSize()){
+            Column(modifier = Modifier.fillMaxWidth()){
+                Column(modifier = Modifier
+                    .background(Color.White)
+                    .height(height = animatedHeight)
+                ){
+                    Image(
+                        painterResource(R.drawable.burger_xpress_cover),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .height(250.dp)
+                            .fillMaxWidth()
+                    )
 
-                ConstraintLayout(
-                    modifier = Modifier
-                        .height(100.dp)
-                        .background(Color.White)
-                ) {
+                    ConstraintLayout(
+                        modifier = Modifier
+                            .height(100.dp)
+                            .background(Color.White)
+                    ) {
 
+                    }
                 }
+                LazyScrollView(onOffsetChanged = {
+                    Log.d("OFFSET","$it")
+                    height = it
+                },
+                    appBarHeight = appBarHeight,
+                    lazyListState = lazyListState
+                )
             }
-            LazyScrollView(onOffsetChanged = {
-                Log.d("OFFSET","$it")
-                height = it
-            },
-                appBarHeight = appBarHeight,
-                lazyListState = lazyListState
-            )
+             CustomTopAppBar(lazyListState = lazyListState, showWhiteAppBar = showWhiteAppBar, onBackClick)
+
         }
+
     }
 }
 
@@ -151,7 +168,8 @@ fun DetailsScreen(
 fun LazyScrollView(
     onOffsetChanged: (Float) -> Unit,
     appBarHeight: Dp,
-    lazyListState: LazyListState){
+    lazyListState: LazyListState,
+){
 
     val data = SectionRepository.getMenuSections()
     val coroutineScope = rememberCoroutineScope()
@@ -172,7 +190,7 @@ fun LazyScrollView(
     })
 
 
-    Box(modifier = Modifier
+    BoxWithConstraints(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
         .nestedScroll(nestedScrollState)
@@ -189,8 +207,13 @@ fun LazyScrollView(
                            sectionsListState.animateScrollToItem(sectionIndex)
                            lazyListState.animateScrollToItem(sectionIndex)
                        }
-                   },
-                   showWhiteAppBar = false
+
+                       if( sectionIndex > 0) {
+                           onOffsetChanged(0f)
+                       }else{
+                           onOffsetChanged(918f)
+                       }
+                   }
                )
 
                Divider(
@@ -253,7 +276,6 @@ fun MenuSectionsView(
     menuSections: List<MenuSections>,
     sectionsListState: LazyListState,
     onClick: (sectionIndex: Int) -> Unit,
-    showWhiteAppBar: Boolean
 ) {
     LazyRow(
         modifier = Modifier
@@ -268,18 +290,10 @@ fun MenuSectionsView(
         menuSections.forEachIndexed { i, section ->
             item {
                 SectionTextView(
-                    modifier = when ( showWhiteAppBar ) {
-                        true -> {
-                            Modifier
-                                .padding(start = 15.dp, top = 65.dp)
-                                .clickable { onClick(i) }
-                        }
-                        else -> {
-                            Modifier
-                                .padding(start = 15.dp, top = 10.dp)
-                                .clickable { onClick(i) }
-                        }
-                    },
+                    modifier =  Modifier
+                        .padding(start = 15.dp, top = 65.dp)
+                        .clickable { onClick(i) },
+
                     text = section.title,
                     isSelected = selectedIndex == i
                 )
@@ -418,7 +432,6 @@ private fun CategoryScreenPreview() {
         DetailsScreen(
             itemId = 4004,
             onBackClick = {},
-            rememberLazyListState()
         )
     }
 }

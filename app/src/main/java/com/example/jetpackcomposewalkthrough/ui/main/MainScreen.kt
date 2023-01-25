@@ -21,7 +21,7 @@ import com.example.jetpackcomposewalkthrough.ui.components.BottomNavigationBar
 fun MainScreen() {
     val navController = rememberNavController()
     val lazyListState = rememberLazyListState()
-    var preFirstVisibleItemIndex = remember { mutableStateOf(0) }
+    val preFirstVisibleItemIndex = remember { mutableStateOf(0) }
 
 
     val isFirstItemVisible by remember {
@@ -36,6 +36,7 @@ fun MainScreen() {
 
         }
     }
+
 
     Scaffold(
         bottomBar = {

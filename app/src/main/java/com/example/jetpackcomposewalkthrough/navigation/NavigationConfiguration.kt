@@ -16,11 +16,15 @@ import com.example.jetpackcomposewalkthrough.ui.home.HomeScreen
 import com.example.jetpackcomposewalkthrough.ui.profile.ProfileScreen
 
 @Composable
-fun NavigationConfiguration(navController: NavHostController, lazyListState: LazyListState, preFirstVisibleItemIndex: MutableState<Int>) {
+fun NavigationConfiguration(
+    navController: NavHostController,
+    lazyListState: LazyListState,
+    preFirstVisibleItemIndex: MutableState<Int>,
+) {
+
     NavHost(navController = navController, startDestination = NavigationItem.Home.route ) {
         composable(NavigationItem.Home.route) {
             HomeScreen(
-//                onCategoryClick = { navController.navigate(NavigationItem.Category.route) },
                 onItemClick = {itemId ->
                     preFirstVisibleItemIndex.value = 0
                     navController.navigate("details/$itemId")
@@ -42,7 +46,6 @@ fun NavigationConfiguration(navController: NavHostController, lazyListState: Laz
                 DetailsScreen(
                     itemId = it.getLong("itemId"),
                     onBackClick = { navController.navigateUp() },
-                    lazyListState
                 )
             }
         }

@@ -33,6 +33,7 @@ fun CustomTopAppBar(
     onBackClick: () -> Unit
 ) {
 
+    println("showWhiteAppBar88 $showWhiteAppBar")
     Box(
         modifier = Modifier
             .height(70.dp)
@@ -62,7 +63,7 @@ fun CustomTopAppBar(
                 backgroundColor = Color.White,
                 navigationIcon = {
                     IconButton(onClick = onBackClick ) {
-                        com.example.jetpackcomposewalkthrough.ui.components.Icon(
+                        Icon(
                             imageVector = ImageVector.vectorResource(id = R.drawable.arrowback),
                             modifier = Modifier
                                 .size(25.dp)
